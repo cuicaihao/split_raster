@@ -5,17 +5,19 @@ Provide good support for deep learning and computer vision tasks by creating a t
 ## Use the packages
 
 ```bash
-pip install splitpackage
+pip install splitraster
 ```
 
 ## Try Sample code
+
+The sample image can be found in the GitHub repo.
 
 ```python
 
 from splitraster import io
 
-input_image_path = "../data/raw/RGB.png"
-gt_image_path = "../data/raw/GT.png"
+input_image_path = "./data/raw/RGB.png"
+gt_image_path = "./data/raw/GT.png"
 
 save_path = "../data/processed/RGB"
 crop_size = 256
@@ -26,12 +28,33 @@ n = io.split_image(input_image_path, save_path, crop_size,
                    repetition_rate=repetition_rate, overwrite=overwrite)
 print(f"{n} tiles sample of {input_image_path} are added at {save_path}")
 
-save_path_gt = "../data/processed/GT"
+save_path_gt = "./data/processed/GT"
 n = io.split_image(gt_image_path, save_path_gt, crop_size,
                    repetition_rate=repetition_rate, overwrite=overwrite)
 print(f"{n} tiles sample of {gt_image_path} are added at {save_path_gt}")
 
 
+```
+
+Possible results:
+
+```bash
+Successfully installed splitraster-0.1.0
+❯ python test.py
+Input Image File Shape (H, W, D):(1000, 1000, 3)
+crop_size=256, stride=128
+Padding Image File Shape (H, W, D):(1024, 1024, 3)
+There are 49 files in the ./data/processed/RGB
+New image name will start with 50
+Generating: 100%|█████████████████████████████████████████████████████████████| 49/49 [00:00<00:00, 50.65img/s]
+49 tiles sample of ./data/raw/RGB.png are added at ./data/processed/RGB
+Input Image File Shape (H, W, D):(1000, 1000)
+crop_size=256, stride=128
+Padding Image File Shape (H, W, D):(1024, 1024)
+There are 49 files in the ./data/processed/GT
+New image name will start with 50
+Generating: 100%|████████████████████████████████████████████████████████████| 49/49 [00:00<00:00, 139.72img/s]
+49 tiles sample of ./data/raw/GT.png are added at ./data/processed/GT
 ```
 
 ## Project Organization
