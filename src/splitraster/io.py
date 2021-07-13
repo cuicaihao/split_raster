@@ -1,3 +1,5 @@
+import time
+from tqdm import tqdm
 import os
 # from osgeo import gdal
 import numpy as np
@@ -93,18 +95,25 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
             for idw in range(n_cols):
                 w = idw*stride
                 yield h, w
-    if(len(img.shape) == 2):
-        for n, (h, w) in enumerate(tile_generator()):
-            crop_img = padded_img[h:h+crop_size, w: w+crop_size]
-            crop_image_name = f"{new_name:04d}{ext}"
-            crop_image_path = Path(save_path) / crop_image_name
-            save_image(crop_img, crop_image_path)
-            new_name = new_name + 1
-    else:
-        for n, (h, w) in enumerate(tile_generator()):
-            crop_img = padded_img[h:h+crop_size, w: w+crop_size, :]
-            crop_image_name = f"{new_name:04d}{ext}"
-            crop_image_path = Path(save_path) / crop_image_name
-            save_image(crop_img, crop_image_path)
-            new_name = new_name + 1
+
+    with tqdm(total=n_rows*n_cols, desc='Generating', colour='green', leave=True, unit='img') as pbar:
+        if(len(img.shape) == 2):
+            for n, (h, w) in enumerate(tile_generator()):
+                crop_img = padded_img[h:h+crop_size, w: w+crop_size]
+                crop_image_name = f"{new_name:04d}{ext}"
+                crop_image_path = Path(save_path) / crop_image_name
+                save_image(crop_img, crop_image_path)
+                new_name = new_name + 1
+                # time.sleep(0.1)
+                pbar.update(1)
+        else:
+            for n, (h, w) in enumerate(tile_generator()):
+                crop_img = padded_img[h:h+crop_size, w: w+crop_size, :]
+                crop_image_name = f"{new_name:04d}{ext}"
+                crop_image_path = Path(save_path) / crop_image_name
+                save_image(crop_img, crop_image_path)
+                new_name = new_name + 1
+                # time.sleep(0.1)
+                pbar.update(1)
+
     return n+1
