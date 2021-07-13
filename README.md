@@ -1,10 +1,40 @@
-Split Raster
-==============================
+# Split Raster
 
-Creates a tiled output from an input raster dataset.
+Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.'
 
-Project Organization
-------------
+## Use the packages
+
+```bash
+pip install splitpackage
+```
+
+## Try Sample code
+
+```python
+
+from splitraster import io
+
+input_image_path = "../data/raw/RGB.png"
+gt_image_path = "../data/raw/GT.png"
+
+save_path = "../data/processed/RGB"
+crop_size = 256
+repetition_rate = 0.5
+overwrite = False
+
+n = io.split_image(input_image_path, save_path, crop_size,
+                   repetition_rate=repetition_rate, overwrite=overwrite)
+print(f"{n} tiles sample of {input_image_path} are added at {save_path}")
+
+save_path_gt = "../data/processed/GT"
+n = io.split_image(gt_image_path, save_path_gt, crop_size,
+                   repetition_rate=repetition_rate, overwrite=overwrite)
+print(f"{n} tiles sample of {gt_image_path} are added at {save_path_gt}")
+
+
+```
+
+## Project Organization
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
@@ -51,7 +81,6 @@ Project Organization
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
-
---------
+---
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
