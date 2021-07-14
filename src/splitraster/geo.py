@@ -19,20 +19,25 @@ def read_rasterArray(image_path):
     return image,  geotrans, proj
 
 
-def save_rasterGeoTIF(im_data, im_geotrans, im_proj, path):
+def save_rasterGeoTIF(im_data, im_geotrans, im_proj, file_name):
+    if Path(file_name).is_file():
+        print(f"Overwrite existing file: {file_name}")
+
     if 'int8' in im_data.dtype.name:
         datatype = gdal.GDT_Byte
     elif 'int16' in im_data.dtype.name:
         datatype = gdal.GDT_UInt16
     else:
         datatype = gdal.GDT_Float32
+
     if len(im_data.shape) == 3:
         im_bands, im_height, im_width = im_data.shape
     elif len(im_data.shape) == 2:
         im_data = np.array([im_data])
         im_bands, im_height, im_width = im_data.shape
+
     driver = gdal.GetDriverByName("GTiff")
-    dataset = driver.Create(path, int(im_width), int(
+    dataset = driver.Create(file_name, int(im_width), int(
         im_height), int(im_bands), datatype)
     if(dataset != None):
         dataset.SetGeoTransform(im_geotrans)
@@ -48,10 +53,11 @@ def save_rasterGeoTIF(im_data, im_geotrans, im_proj, path):
 #         im_data, path, format="GTiff",  prototype=image_prototype_path)
 #     return True
 
-def save_rasterArray(im_data, path):
-
+def save_rasterArray(im_data, file_name):
+    if Path(file_name).is_file():
+        print(f"Overwrite existing file: {file_name}")
     output = gdal_array.SaveArray(
-        im_data, path, format="GTiff")
+        im_data, file_name, format="GTiff")
     return True
 
 
@@ -63,7 +69,7 @@ def count_files(folder_path):
     return count
 
 
-def padding_mul_image(img, crop_size, stride):
+def padding_mul_image(img, stride):
 
     D = img.shape[0]  # this one is for (H, W, C) format
     height = img.shape[1]
@@ -93,14 +99,12 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
     # check output folder, if not exists, creat it.
     Path(save_path).mkdir(parents=True, exist_ok=True)
 
-    height = img.shape[1]
-    width = img.shape[2]
     print(f"Input Image File Shape (D, H, W):{ img.shape}")
 
     stride = int(crop_size*(1-repetition_rate))
     print(f"{crop_size=}, {stride=}")
 
-    padded_img = padding_mul_image(img, crop_size, stride)
+    padded_img = padding_mul_image(img,  stride)
 
     H = padded_img.shape[1]
     W = padded_img.shape[2]

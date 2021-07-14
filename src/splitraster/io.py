@@ -1,7 +1,7 @@
-import time
+# import time
+# from osgeo import gdal
 from tqdm import tqdm
 import os
-# from osgeo import gdal
 import numpy as np
 from skimage.io import imread, imsave
 from pathlib import Path
@@ -49,7 +49,7 @@ def count_files(folder_path):
     return count
 
 
-def padding_image(img, crop_size, stride):
+def padding_image(img, stride):
 
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
@@ -80,14 +80,12 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
     # check output folder, if not exists, creat it.
     Path(save_path).mkdir(parents=True, exist_ok=True)
 
-    height = img.shape[0]
-    width = img.shape[1]
     print(f"Input Image File Shape (H, W, D):{ img.shape}")
 
     stride = int(crop_size*(1-repetition_rate))
     print(f"{crop_size=}, {stride=}")
 
-    padded_img = padding_image(img, crop_size, stride)
+    padded_img = padding_image(img,   stride)
     H = padded_img.shape[0]
     W = padded_img.shape[1]
     print(f"Padding Image File Shape (H, W, D):{ padded_img.shape}")
@@ -118,7 +116,6 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
                 crop_image_path = Path(save_path) / crop_image_name
                 save_image(crop_img, crop_image_path)
                 new_name = new_name + 1
-                # time.sleep(0.1)
                 pbar.update(1)
         else:
             for n, (h, w) in enumerate(tile_generator()):
@@ -127,7 +124,6 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
                 crop_image_path = Path(save_path) / crop_image_name
                 save_image(crop_img, crop_image_path)
                 new_name = new_name + 1
-                # time.sleep(0.1)
                 pbar.update(1)
 
     return n+1
