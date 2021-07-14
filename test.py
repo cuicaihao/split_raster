@@ -5,8 +5,8 @@ gt_image_path = "./data/raw/GT.png"
 
 save_path = "./data/processed/RGB"
 crop_size = 256
-repetition_rate = 0.5
-overwrite = False
+repetition_rate = 0
+overwrite = True
 
 n = io.split_image(input_image_path, save_path, crop_size,
                    repetition_rate=repetition_rate, overwrite=overwrite)

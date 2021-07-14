@@ -8,11 +8,25 @@ from pathlib import Path
 import random
 
 
-def read_image(fileName):
-    if not Path(fileName).is_file():
-        print(fileName + "Can not open file!")
+def read_rasterArray(image_path):
+    dataset = gdal.Open(image_path, gdal.GA_ReadOnly)
+    image = dataset.ReadAsArray()  # get the rasterArray
+    # convert 2D raster to [1, H, W] format
+    if len(image.shape) == 2:
+        image = image[np.newaxis, :, :]
+    [D, H, W] = image.shape
+    pimg = Path(image_path)
+
+    print(pimg.stem, image.shape, image_path)
+
+    return image, [D, H, W]
+
+
+def read_image(file_name):
+    if not Path(file_name).is_file():
+        print(file_name + "Can not open file!")
         return None
-    img = imread(fileName)
+    img = imread(file_name)
     # #     The different color bands/channels are stored in the third dimension,
     # such that a gray-image is MxN,
     # an RGB-image HxWx3 and
