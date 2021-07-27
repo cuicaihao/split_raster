@@ -28,9 +28,9 @@ n = io.split_image(gt_image_path, save_path_gt, crop_size,
 print(f"{n} tiles sample of {gt_image_path} are added at {save_path_gt}")
 
 
-tif_image_path = "../data/processed/MUL.tif"
-save_tif_image_path = "../data/processed/MUL"
-crop_size = 100
+tif_image_path = "../data/raw/TIF/GT5k.tif"
+save_tif_image_path = "../data/processed/GT_TIF"
+crop_size = 500
 repetition_rate = 0
 overwrite = True
 
@@ -39,6 +39,19 @@ n = geo.split_image(tif_image_path, save_tif_image_path,
                     crop_size, repetition_rate, overwrite)
 
 print(f"{n} tiles sample of {tif_image_path} are added at {save_tif_image_path}")
+
+
+tif_image_path = "../data/raw/TIF/RGB5k.tif"
+save_tif_image_path = "../data/processed/RGB_TIF"
+
+n = geo.split_image(tif_image_path, save_tif_image_path,
+                    crop_size, repetition_rate, overwrite)
+
+print(f"{n} tiles sample of {tif_image_path} are added at {save_tif_image_path}")
+
+
+
+
 # image, proj, geotrans = geo.save_rasterGeoTIF(tif_image_path)
 # print(image.shape)
 # print(proj)
