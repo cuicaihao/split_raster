@@ -45,7 +45,7 @@ print(f"{n} tiles sample of {gt_image_path} are added at {save_path_gt}")
 Possible results:
 
 ```bash
-Successfully installed splitraster-0.1.0
+Successfully installed splitraster-0.*.*
 ❯ python test.py
 Input Image File Shape (H, W, D):(1000, 1000, 3)
 crop_size=256, stride=128
