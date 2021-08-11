@@ -18,7 +18,8 @@ setup(
     install_requires=[
         'tqdm>=4.40.0',
         'numpy>=1.19.0',
-        'scikit-image>=0.18.0'
+        'scikit-image>=0.18.0',
+        'gdal>=3.3.0'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
