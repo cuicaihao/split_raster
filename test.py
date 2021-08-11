@@ -44,41 +44,41 @@ def test_rgb_gt_random_crop():
     print(f"{n} sample paris of {input_image_path, gt_image_path} are added at {save_path, save_path_gt}")
 
 
-# %% Example C
-def test_tif_slide_window():
-    input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
-    gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
+# # %% Example C
+# def test_tif_slide_window():
+#     input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
+#     gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
 
-    input_save_image_path = "./data/processed/RGB_TIF"
-    gt_save_image_path = "./data/processed/GT_TIF"
+#     input_save_image_path = "./data/processed/RGB_TIF"
+#     gt_save_image_path = "./data/processed/GT_TIF"
 
-    crop_size = 500
-    repetition_rate = 0
-    overwrite = True
+#     crop_size = 500
+#     repetition_rate = 0
+#     overwrite = True
 
-    n = geo.split_image(input_tif_image_path, input_save_image_path,
-                        crop_size, repetition_rate, overwrite)
+#     n = geo.split_image(input_tif_image_path, input_save_image_path,
+#                         crop_size, repetition_rate, overwrite)
 
-    print(f"{n} tiles sample of {input_tif_image_path} are added at {input_save_image_path}")
+#     print(f"{n} tiles sample of {input_tif_image_path} are added at {input_save_image_path}")
 
-    n = geo.split_image(gt_tif_image_path, gt_save_image_path,
-                        crop_size, repetition_rate, overwrite)
+#     n = geo.split_image(gt_tif_image_path, gt_save_image_path,
+#                         crop_size, repetition_rate, overwrite)
 
-    print(f"{n} tiles sample of {gt_tif_image_path} are added at {gt_save_image_path}")
+#     print(f"{n} tiles sample of {gt_tif_image_path} are added at {gt_save_image_path}")
 
 
-# %% Example D
-def test_tif_random_sample():
-    input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
-    gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
+# # %% Example D
+# def test_tif_random_sample():
+#     input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
+#     gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
 
-    input_save_image_path = "./data/processed/Rand/RGB_TIF"
-    gt_save_image_path = "./data/processed/Rand/GT_TIF"
+#     input_save_image_path = "./data/processed/Rand/RGB_TIF"
+#     gt_save_image_path = "./data/processed/Rand/GT_TIF"
 
-    n = geo.random_crop_image(input_tif_image_path, input_save_image_path,  gt_tif_image_path, gt_save_image_path,
-                              crop_size=500, crop_number=20, overwrite=True)
+#     n = geo.random_crop_image(input_tif_image_path, input_save_image_path,  gt_tif_image_path, gt_save_image_path,
+#                               crop_size=500, crop_number=20, overwrite=True)
 
-    print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added at {input_save_image_path, gt_save_image_path}.")
+#     print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added at {input_save_image_path, gt_save_image_path}.")
 
 
 # %% Show END

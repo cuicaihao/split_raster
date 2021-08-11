@@ -19,7 +19,7 @@ setup(
         'tqdm>=4.40.0',
         'numpy>=1.19.0',
         'scikit-image>=0.18.0',
-        'gdal>=3.3.0'
+        # 'gdal>=3.3.0' # too many local issues for this gdal python binding.
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
