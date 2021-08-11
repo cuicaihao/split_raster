@@ -1,10 +1,7 @@
-# %%
-from splitraster import geo
-from splitraster import io
-
-
+# %% Test the Packages
 # %% Example A:
 def test_rgb_gt_slide_window():
+    from splitraster import io
     # Step 1: set input image file path
     input_image_path = "./data/raw/RGB.png"
     gt_image_path = "./data/raw/GT.png"
@@ -32,6 +29,7 @@ def test_rgb_gt_slide_window():
 
 # %% Example B
 def test_rgb_gt_random_crop():
+    from splitraster import io
     input_image_path = "./data/raw/RGB.png"
     gt_image_path = "./data/raw/GT.png"
 
@@ -46,6 +44,7 @@ def test_rgb_gt_random_crop():
 
 # # %% Example C
 # def test_tif_slide_window():
+#     from splitraster import geo
 #     input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
 #     gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
 
@@ -69,6 +68,7 @@ def test_rgb_gt_random_crop():
 
 # # %% Example D
 # def test_tif_random_sample():
+#     from splitraster import geo
 #     input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
 #     gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
 
