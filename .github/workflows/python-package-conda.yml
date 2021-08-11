@@ -10,10 +10,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.8
+      - name: Set up Python 3.8.10
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.8.10
       - name: Add conda to system path
         run: |
           # $CONDA is an environment variable pointing to the root of the miniconda directory
@@ -23,8 +23,4 @@ jobs:
           conda env update --file environment.yml --name base
       - name: Test with pytest
         run: |
-          conda install pytest
-          cd src
-          pytest local_run.py
-          cd ..
-          pytest test.py
+          pytest test.py -v

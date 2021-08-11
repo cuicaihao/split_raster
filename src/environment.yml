@@ -5,7 +5,6 @@ channels:
 dependencies:
   - appdirs=1.4.4=pyh9f0ad1d_0
   - attrs=21.2.0=pyhd8ed1ab_0
-  - beautifulsoup4=4.9.3=pyhb0f4dca_0
   - blosc=1.21.0=he49afe7_0
   - boost-cpp=1.74.0=hff03dee_4
   - brotli=1.0.9=h0d85af4_5
@@ -24,9 +23,6 @@ dependencies:
   - charset-normalizer=2.0.0=pyhd8ed1ab_0
   - cloudpickle=1.6.0=py_0
   - colorama=0.4.4=pyh9f0ad1d_0
-  - conda=4.10.3=py38h50d1736_0
-  - conda-build=3.21.4=py38h50d1736_0
-  - conda-package-handling=1.7.3=py38h96a0964_0
   - cryptography=3.4.7=py38h1fa4640_0
   - curl=7.78.0=hb861fe1_0
   - cycler=0.10.0=py_2
@@ -34,7 +30,6 @@ dependencies:
   - dask-core=2021.7.2=pyhd8ed1ab_0
   - decorator=4.4.2=py_0
   - expat=2.4.1=he49afe7_0
-  - filelock=3.0.12=pyh9f0ad1d_0
   - fontconfig=2.13.1=h10f422b_1005
   - freetype=2.10.4=h4cff582_1
   - freexl=1.0.6=h0d85af4_0
@@ -44,7 +39,6 @@ dependencies:
   - geotiff=1.6.0=h26421ea_6
   - gettext=0.19.8.1=h7937167_1005
   - giflib=5.2.1=hbcb3906_2
-  - glob2=0.7=py_0
   - hdf4=4.2.15=hefd3b78_3
   - hdf5=1.10.6=nompi_hc5d9132_1114
   - icu=68.1=h74dc148_0
@@ -52,7 +46,6 @@ dependencies:
   - imagecodecs=2021.7.30=py38h1d95394_0
   - imageio=2.9.0=py_0
   - iniconfig=1.1.1=pyh9f0ad1d_0
-  - jinja2=3.0.1=pyhd8ed1ab_0
   - jpeg=9d=hbcb3906_0
   - json-c=0.15=hcb556a6_0
   - jxrlib=1.1=h35c211d_2
@@ -62,7 +55,6 @@ dependencies:
   - lcms2=2.12=h577c468_0
   - lerc=2.2.1=h046ec9c_0
   - libaec=1.0.5=he49afe7_0
-  - libarchive=3.5.1=h2b60450_2
   - libblas=3.9.0=11_osx64_openblas
   - libbrotlicommon=1.0.9=h0d85af4_5
   - libbrotlidec=1.0.9=h0d85af4_5
@@ -82,7 +74,6 @@ dependencies:
   - libiconv=1.16=haf1e3a3_0
   - libkml=1.3.0=h8fd9edb_1014
   - liblapack=3.9.0=11_osx64_openblas
-  - liblief=0.11.5=he49afe7_0
   - libnetcdf=4.8.0=nompi_hb4d10b0_103
   - libnghttp2=1.43.0=h07e645a_0
   - libopenblas=0.3.17=openmp_h3351f45_1
@@ -99,8 +90,6 @@ dependencies:
   - llvm-openmp=12.0.1=hda6cdc1_1
   - locket=0.2.0=py_2
   - lz4-c=1.9.3=he49afe7_1
-  - lzo=2.10=haf1e3a3_1000
-  - markupsafe=2.0.1=py38h96a0964_0
   - matplotlib-base=3.4.2=py38hc7d2367_0
   - more-itertools=8.8.0=pyhd8ed1ab_0
   - ncurses=6.2=h2e338ed_4
@@ -116,17 +105,13 @@ dependencies:
   - pillow=8.3.1=py38hee640a0_0
   - pip=21.2.3=pyhd8ed1ab_0
   - pixman=0.40.0=hbcb3906_0
-  - pkginfo=1.7.1=pyhd8ed1ab_0
   - pluggy=0.13.1=py38h50d1736_4
   - pooch=1.4.0=pyhd8ed1ab_0
   - poppler=21.03.0=h640f9a4_0
   - poppler-data=0.4.10=0
   - postgresql=13.3=he8fe76e_0
   - proj=8.0.1=h1512c50_0
-  - psutil=5.8.0=py38h96a0964_1
   - py=1.10.0=pyhd3deb0d_0
-  - py-lief=0.11.5=py38ha048514_0
-  - pycosat=0.6.3=py38h96a0964_1006
   - pycparser=2.20=pyh9f0ad1d_2
   - pyopenssl=20.0.1=pyhd8ed1ab_0
   - pyparsing=2.4.7=pyh9f0ad1d_0
@@ -134,21 +119,17 @@ dependencies:
   - pytest=6.2.4=py38h50d1736_0
   - python=3.8.10=h0e5c897_0_cpython
   - python-dateutil=2.8.2=pyhd8ed1ab_0
-  - python-libarchive-c=3.1=py38h50d1736_0
   - python_abi=3.8=2_cp38
   - pytz=2021.1=pyhd8ed1ab_0
   - pywavelets=1.1.1=py38hc7193ba_3
   - pyyaml=5.4.1=py38h5406a74_0
   - readline=8.1=h05e3726_0
   - requests=2.26.0=pyhd8ed1ab_0
-  - ripgrep=13.0.0=h244e342_0
-  - ruamel_yaml=0.15.80=py38h96a0964_1004
   - scikit-image=0.18.2=py38h1f261ad_0
   - scipy=1.7.1=py38hd329d04_0
   - setuptools=49.6.0=py38h50d1736_3
   - six=1.16.0=pyh6c4a22f_0
   - snappy=1.1.8=hb1e8313_3
-  - soupsieve=2.0.1=py_1
   - sqlite=3.36.0=h23a322b_0
   - tifffile=2021.8.8=pyhd8ed1ab_0
   - tiledb=2.3.3=h8370e7a_0
@@ -167,6 +148,4 @@ dependencies:
   - zfp=0.5.5=he49afe7_5
   - zlib=1.2.11=h7795811_1010
   - zstd=1.5.0=h582d3a0_0
-  - pip:
-      - splitraster==0.3.1
 prefix: /Users/caihaocui/opt/miniconda3/envs/py38_split_raster
