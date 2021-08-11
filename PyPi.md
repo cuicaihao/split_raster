@@ -83,8 +83,40 @@ n = geo.split_image(input_image_path, save_path, crop_size,
 print(f"{n} tiles sample of {input_image_path} are added at {save_path}")
 ```
 
+## Random Sampling Code
+
+The basic implementation is still the same as the above. Just replace the 'split_image' method to 'rand_crop_image'.
+
+```python
+from splitraster import io
+input_image_path = "./data/raw/RGB.png"
+gt_image_path = "./data/raw/GT.png"
+
+input_save_path = "./data/processed/Rand/RGB"
+gt_save_path = "./data/processed/Rand/GT"
+
+n = io.random_crop_image(input_image_path, input_save_path,  gt_image_path, gt_save_path, crop_size=256, crop_number=20, img_ext='.png', label_ext='.png', overwrite=True)
+
+print(f"{n} sample paris of {input_image_path, gt_image_path} are added at {input_save_path, gt_save_path}.")
+
+```
+
+```python
+from splitraster import geo
+input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
+gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
+
+input_save_image_path = "./data/processed/Rand/RGB_TIF"
+gt_save_image_path = "./data/processed/Rand/GT_TIF"
+
+n = geo.random_crop_image(input_tif_image_path, input_save_image_path,  gt_tif_image_path, gt_save_image_path, crop_size=500, crop_number=20, overwrite=True)
+
+print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added at {input_save_image_path, gt_save_image_path}.")
+
+```
+
 Future Update:
 
-- Create a GUI with Qt and generate an executable file
-- Add Random Sampling feature.
-- Add Sample Balancing feature.
+- [x] Add Random Sampling feature.
+- [] Create a GUI with Qt and generate an executable file
+- [] Add Sample Balancing feature.

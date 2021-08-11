@@ -1,7 +1,6 @@
 # import time
 # from osgeo import gdal
 from tqdm import tqdm
-import os
 import numpy as np
 from skimage.io import imread, imsave
 from pathlib import Path
@@ -127,3 +126,82 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
                 pbar.update(1)
 
     return n+1
+
+
+def random_crop_image(img_path, img_save_path,  label_path, label_save_path, crop_size=256, crop_number=20, img_ext='.jpg', label_ext='.png', overwrite=True):
+    """Generate Random cropped image pair from the input image pairs.
+
+    Args:
+        img_path (str): path of input image
+        img_save_path (str):  
+        crop_size (int): image tile size (H,W), i.e., 256x256
+        overwrite (bool, optional): [overwrite existing files]. Defaults to True.
+    """
+    img = read_image(img_path)
+    if img is None:
+        print("Input image is missing")
+        return None
+    label = read_image(label_path)
+    if label is None:
+        print("Label image is missing")
+        return None
+
+    # check output folder, if not exists, create it.
+    Path(img_save_path).mkdir(parents=True, exist_ok=True)
+    Path(label_save_path).mkdir(parents=True, exist_ok=True)
+
+    # get the file formats, if none, use the same format as the source file.
+    if img_ext is None:
+        img_ext = Path(img_path).suffix
+    if label_ext is None:
+        label_ext = Path(label_path).suffix
+
+    # find the start name of the image paris.
+    if overwrite:
+        new_name = 1
+    else:
+        img_cnt = count_files(img_path)
+        label_cnt = count_files(label_path)
+        new_name = img_cnt + 1
+        print(f"There are {img_cnt} files in the {img_save_path}")
+        print(f"There are {label_cnt} files in the {label_save_path}")
+        if not img_cnt == label_cnt:
+            print("Image Pair doest not match in output folders.")
+            return None
+        print(f"New image pairs' name will start with {new_name}")
+
+    crop_cnt = 0
+    H = img.shape[0]
+    W = img.shape[1]
+
+    with tqdm(total=crop_number, desc='Generating', colour='green', leave=True, unit='img') as pbar:
+        while (crop_cnt < crop_number):
+            # Crop img_crop, label_crop paris and save them to the output folders.
+            UpperLeftX = random.randint(0, H - crop_size)
+            UpperLeftY = random.randint(0, W - crop_size)
+            if(len(img.shape) == 2):
+                imgCrop = img[UpperLeftX: UpperLeftX + crop_size,
+                              UpperLeftY: UpperLeftY + crop_size]
+            else:
+                imgCrop = img[UpperLeftX: UpperLeftX + crop_size,
+                              UpperLeftY: UpperLeftY + crop_size, :]
+            if(len(label.shape) == 2):
+                labelCrop = label[UpperLeftX: UpperLeftX + crop_size,
+                                  UpperLeftY: UpperLeftY + crop_size]
+            else:
+                labelCrop = label[UpperLeftX: UpperLeftX + crop_size,
+                                  UpperLeftY: UpperLeftY + crop_size, :]
+            # save image pairs
+            crop_image_name = f"{new_name:04d}{img_ext}"
+            crop_image_path = Path(img_save_path) / crop_image_name
+            save_image(imgCrop, crop_image_path)
+
+            crop_image_name = f"{new_name:04d}{label_ext}"
+            crop_image_path = Path(label_save_path) / crop_image_name
+            save_image(labelCrop, crop_image_path)
+
+            new_name = new_name + 1  # update image name
+            crop_cnt = crop_cnt + 1  # add crop count
+            pbar.update(1)
+
+    return crop_cnt  # return total crop sample pair number.
