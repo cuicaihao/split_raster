@@ -7,6 +7,8 @@ Provide good support for deep learning and computer vision tasks by creating a t
 ```bash
 pip install splitraster
 ```
+[PyPi: splitraster] https://pypi.org/project/splitraster/
+
 
 ## Try Sample code
 
