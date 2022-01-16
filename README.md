@@ -4,6 +4,11 @@ Provide good support for deep learning and computer vision tasks by creating a t
 
 Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The `SplitRaster` package successfully generate 16 256x256 images tiles with automatic padding on the edges. You can adjust the tile size and the overlap of the tiles for your own applications.
 
+
+## Update Log
+- 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
+
+
 ![Sample Image](docs/split_raster_sample.png)
 
 ## Use the packages

@@ -82,7 +82,7 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
     print(f"Input Image File Shape (H, W, D):{ img.shape}")
 
     stride = int(crop_size*(1-repetition_rate))
-    print(f"{crop_size=}, {stride=}")
+    print(f"crop_size = {crop_size}, stride = {stride}")
 
     padded_img = padding_image(img,   stride)
     H = padded_img.shape[0]
