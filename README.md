@@ -6,6 +6,7 @@ Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The
 
 
 ## Update Log
+- 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).
 - 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
 
 

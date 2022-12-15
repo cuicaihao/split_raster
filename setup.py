@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 from pathlib import Path
 setup(
     name='splitraster',
-    version='0.3.2',
+    version='0.3.3',
     author='Chris Cui',
     author_email='',
     description='Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.',
