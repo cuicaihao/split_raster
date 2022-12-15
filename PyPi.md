@@ -1,13 +1,14 @@
 # Split Raster
 
-Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.'
+Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.
 
 ## Use the packages
 
 ```bash
 pip install splitraster
 ```
-[PyPi: splitraster] https://pypi.org/project/splitraster/
+
+**PyPi: splitraster**:  https://pypi.org/project/splitraster/
 
 
 ## Try Sample code
