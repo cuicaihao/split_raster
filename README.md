@@ -1,16 +1,22 @@
 # Split Raster
 
-Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.
+[![image](https://img.shields.io/pypi/pyversions/splitraster)](https://python.org/pypi/splitraster)
+[![image](https://img.shields.io/pypi/v/splitraster?color=g)](https://python.org/pypi/splitraster)
+[![CI](https://img.shields.io/github/actions/workflow/status/cuicaihao/split_raster/python-app.yml?branch=master)](https://github.com/cuicaihao/split_raster/actions/workflows/python-app.yml)
+[![image](https://img.shields.io/pypi/dm/splitraster?color=blue)](https://python.org/pypi/splitraster)
+[![image](https://img.shields.io/github/license/cuicaihao/split_raster?color=blue)](https://python.org/pypi/splitraster)
+
+## Introduction
+
+Split Raster is a python package to split a large image into small tiles. It is useful for deep learning and computer vision tasks. The package can also be used to split a large image into small tiles for other applications.
+
+The initial version of the package is developed by Chris to provide good support for deep learning and computer vision tasks on Satelite Images by creating tiled output image samples from an input raster dataset.
 
 Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The `SplitRaster` package successfully generate 16 256x256 images tiles with automatic padding on the edges. You can adjust the tile size and the overlap of the tiles for your own applications.
 
-
-## Update Log
-- 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).
-- 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
-
-
 ![Sample Image](docs/split_raster_sample.png)
+
+
 
 ## Use the packages
 
@@ -68,7 +74,7 @@ New image name will start with 50
 Generating: 100%|████████████████████████████████████████████████████████████| 49/49 [00:00<00:00, 139.72img/s]
 49 tiles sample of ./data/raw/GT.png are added at ./data/processed/GT
 ```
-
+ 
 You can also work with Remote Sensing (GeoTIFF) Satellite images such as Multispectral Images which have more bands or channels. All the codes will be the same, but with a small difference. Replace the `io` with the `geo` module.
 
 This feature also needs you to install the `gdal` package with the following command in your python environment.
@@ -127,22 +133,20 @@ print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added 
 
 ```
 
-Future Update:
+## Update Log
+- 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).
+- 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
+
+## Future Update:
 
 - [x] Add Random Sampling feature.
-- [] Create a GUI with Qt and generate an executable file
-- [] Add Sample Balancing feature.
-
-
+- [ ] Create a GUI with Qt and generate an executable file
+- [ ] Add Sample Balancing feature.
 
 ## Contribution Guidelines
 
 If you are interested in contributing to `splitraster`, please see our [contributing guidelines](CONTRIBUTING.md).
-
-
-
-
-
+ 
 ## Project Organization
 
     ├── LICENSE

@@ -14,4 +14,4 @@
 # GDAL==3.3.1
 # tqdm>=4.40.0
 # scikit-image>=0.18.0
-splitraster==0.3.3
+splitraster>=0.3.2

@@ -8,9 +8,6 @@ Provide good support for deep learning and computer vision tasks by creating a t
 pip install splitraster
 ```
 
-**PyPi: splitraster**:  https://pypi.org/project/splitraster/
-
-
 ## Try Sample code
 
 The sample image can be found in the GitHub repo.
@@ -121,5 +118,5 @@ print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added 
 Future Update:
 
 - [x] Add Random Sampling feature.
-- [] Create a GUI with Qt and generate an executable file
-- [] Add Sample Balancing feature.
+- [ ] Create a GUI with Qt and generate an executable file
+- [ ] Add Sample Balancing feature.

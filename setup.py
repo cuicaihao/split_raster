@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 from pathlib import Path
 setup(
     name='splitraster',
-    version='0.3.3',
+    version='0.3.4',
     author='Chris Cui',
     author_email='',
     description='Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.',
@@ -22,12 +22,19 @@ setup(
         # 'gdal>=3.3.0' # too many local issues for this gdal python binding.
     ],
     classifiers=[
-        "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
-)
 
+)
 # rm -rf build dist
 # python setup.py sdist bdist_wheel
 # twine upload dist/*
