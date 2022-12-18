@@ -133,6 +133,16 @@ Future Update:
 - [] Create a GUI with Qt and generate an executable file
 - [] Add Sample Balancing feature.
 
+
+
+## Contribution Guidelines
+
+If you are interested in contributing to `splitraster`, please see our [contributing guidelines](CONTRIBUTING.md).
+
+
+
+
+
 ## Project Organization
 
     ├── LICENSE
