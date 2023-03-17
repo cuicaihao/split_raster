@@ -6,6 +6,10 @@
 [![image](https://img.shields.io/pypi/dm/splitraster?color=blue)](https://python.org/pypi/splitraster)
 [![image](https://img.shields.io/github/license/cuicaihao/split_raster?color=blue)](https://python.org/pypi/splitraster)
 
+- Document: [split_raster](https://cuicaihao.github.io/split_raster/)
+- Pypi: [splitraster](https://pypi.org/project/splitraster/)
+
+
 ## Introduction
 
 Split Raster is a python package to split a large image into small tiles. It is useful for deep learning and computer vision tasks. The package can also be used to split a large image into small tiles for other applications.
@@ -14,7 +18,7 @@ The initial version of the package is developed by Chris to provide good support
 
 Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The `SplitRaster` package successfully generate 16 256x256 images tiles with automatic padding on the edges. You can adjust the tile size and the overlap of the tiles for your own applications.
 
-![Sample Image](docs/img/docs/split_raster_sample.png)
+![Sample Image](docs/img/split_raster_sample.png)
 
 
 ## Use the packages
