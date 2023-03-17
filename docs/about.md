@@ -1,3 +1,9 @@
 # About this Site
 
-This site is a collection of notes and tutorials on the use of the [R programming language](http://www.r-project.org/). It is intended to be a resource for those who are new to R, and for those who are familiar with R but want to learn more about it.
+Split Raster is a python package to split a large image into small tiles. It is useful for deep learning and computer vision tasks. The package can also be used to split a large image into small tiles for other applications.
+
+The initial version of the package is developed by Chris to provide good support for deep learning and computer vision tasks on Satelite Images by creating tiled output image samples from an input raster dataset.
+
+Visit [Author's Blog](https://cuicaihao.com) for more information.
+
+Example: [Roads from Above: Augmenting Civil Engineering & Geospatial Workflows with Machine Learning](https://cuicaihao.com/2018/10/21/roads-from-above/)

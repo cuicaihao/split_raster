@@ -14,8 +14,7 @@ The initial version of the package is developed by Chris to provide good support
 
 Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The `SplitRaster` package successfully generate 16 256x256 images tiles with automatic padding on the edges. You can adjust the tile size and the overlap of the tiles for your own applications.
 
-![Sample Image](docs/split_raster_sample.png)
-
+![Sample Image](docs/img/docs/split_raster_sample.png)
 
 
 ## Use the packages
