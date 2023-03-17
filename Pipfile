@@ -8,6 +8,7 @@ tqdm = "*"
 numpy = "*"
 scikit-image = "*"
 splitraster = {editable = true, path = "."}
+mkdocs = "*"
 
 [dev-packages]
 pytest = "*"

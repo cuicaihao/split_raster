@@ -1,0 +1,6 @@
+site_name: Split Raster
+# site_url: https://example.com/ # TODO: edit it before you deploy your site to a production server.
+nav:
+  - Home: index.md
+  - About: about.md
+theme: readthedocs
