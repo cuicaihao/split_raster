@@ -13,14 +13,13 @@
 
 ## Introduction
 
+![Sample Image](img/split_raster_sample.png)
+
 Split Raster is a python package to split a large image into small tiles. It is useful for deep learning and computer vision tasks. The package can also be used to split a large image into small tiles for other applications.
 
 The initial version of the package is developed by Chris to provide good support for deep learning and computer vision tasks on Satelite Images by creating tiled output image samples from an input raster dataset.
 
 Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The `SplitRaster` package successfully generate 16 256x256 images tiles with automatic padding on the edges. You can adjust the `tile size` and the `overlap` of the tiles for your own applications. The package takes care of the padding and the naming of the output images (e.g., 0001.png, 0002.png, ... , 9999.png).
-
-![Sample Image](img/split_raster_sample.png)
-
 
 ## Install the packages
 

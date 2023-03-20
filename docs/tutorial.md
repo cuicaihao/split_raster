@@ -165,7 +165,7 @@ Output:
 
 ## Download the Notebook
 
-Find the full code in this  Notebook Tutorial: [SplitRaster Tutorial](../notebooks/Tutorial.ipynb).
+Find the full code in this  Notebook Tutorial: [SplitRaster Tutorial](https://github.com/cuicaihao/split_raster/blob/master/notebooks/Tutorial.ipynb).
 
 --- 
 
