@@ -49,15 +49,14 @@ def count_files(folder_path):
 
 
 def padding_image(img, stride):
-
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
     height = img.shape[0]
     width = img.shape[1]
     D = img.shape[2]  # this one is for (H, W, C) format
     # get the minial padding image size
-    H = int(np.ceil(height/stride)*stride)
-    W = int(np.ceil(width/stride)*stride)
+    H = int(np.ceil(height / stride) * stride)
+    W = int(np.ceil(width / stride) * stride)
 
     padded_img = np.zeros([H, W, D], dtype=img.dtype)
     for d in range(D):  # padding every layer
@@ -81,10 +80,10 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
 
     print(f"Input Image File Shape (H, W, D):{ img.shape}")
 
-    stride = int(crop_size*(1-repetition_rate))
+    stride = int(crop_size * (1 - repetition_rate))
     print(f"crop_size = {crop_size}, stride = {stride}")
 
-    padded_img = padding_image(img,   stride)
+    padded_img = padding_image(img, stride)
     H = padded_img.shape[0]
     W = padded_img.shape[1]
     print(f"Padding Image File Shape (H, W, D):{ padded_img.shape}")
@@ -97,20 +96,22 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
         print(f"There are {cnt} files in the {save_path}")
         print(f"New image name will start with {new_name}")
 
-    n_rows = int((H - crop_size)/stride + 1)
-    n_cols = int((W - crop_size)/stride + 1)
+    n_rows = int((H - crop_size) / stride + 1)
+    n_cols = int((W - crop_size) / stride + 1)
 
     def tile_generator():
         for idh in range(n_rows):
-            h = idh*stride
+            h = idh * stride
             for idw in range(n_cols):
-                w = idw*stride
+                w = idw * stride
                 yield h, w
 
-    with tqdm(total=n_rows*n_cols, desc='Generating', colour='green', leave=True, unit='img') as pbar:
-        if(len(img.shape) == 2):
+    with tqdm(
+        total=n_rows * n_cols, desc="Generating", colour="green", leave=True, unit="img"
+    ) as pbar:
+        if len(img.shape) == 2:
             for n, (h, w) in enumerate(tile_generator()):
-                crop_img = padded_img[h:h+crop_size, w: w+crop_size]
+                crop_img = padded_img[h : h + crop_size, w : w + crop_size]
                 crop_image_name = f"{new_name:04d}{ext}"
                 crop_image_path = Path(save_path) / crop_image_name
                 save_image(crop_img, crop_image_path)
@@ -118,22 +119,32 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
                 pbar.update(1)
         else:
             for n, (h, w) in enumerate(tile_generator()):
-                crop_img = padded_img[h:h+crop_size, w: w+crop_size, :]
+                crop_img = padded_img[h : h + crop_size, w : w + crop_size, :]
                 crop_image_name = f"{new_name:04d}{ext}"
                 crop_image_path = Path(save_path) / crop_image_name
                 save_image(crop_img, crop_image_path)
                 new_name = new_name + 1
                 pbar.update(1)
 
-    return n+1
+    return n + 1
 
 
-def random_crop_image(img_path, img_save_path,  label_path, label_save_path, crop_size=256, crop_number=20, img_ext='.jpg', label_ext='.png', overwrite=True):
+def random_crop_image(
+    img_path,
+    img_save_path,
+    label_path,
+    label_save_path,
+    crop_size=256,
+    crop_number=20,
+    img_ext=".jpg",
+    label_ext=".png",
+    overwrite=True,
+):
     """Generate Random cropped image pair from the input image pairs.
 
     Args:
         img_path (str): path of input image
-        img_save_path (str):  
+        img_save_path (str):
         crop_size (int): image tile size (H,W), i.e., 256x256
         overwrite (bool, optional): [overwrite existing files]. Defaults to True.
     """
@@ -174,23 +185,35 @@ def random_crop_image(img_path, img_save_path,  label_path, label_save_path, cro
     H = img.shape[0]
     W = img.shape[1]
 
-    with tqdm(total=crop_number, desc='Generating', colour='green', leave=True, unit='img') as pbar:
-        while (crop_cnt < crop_number):
+    with tqdm(
+        total=crop_number, desc="Generating", colour="green", leave=True, unit="img"
+    ) as pbar:
+        while crop_cnt < crop_number:
             # Crop img_crop, label_crop paris and save them to the output folders.
             UpperLeftX = random.randint(0, H - crop_size)
             UpperLeftY = random.randint(0, W - crop_size)
-            if(len(img.shape) == 2):
-                imgCrop = img[UpperLeftX: UpperLeftX + crop_size,
-                              UpperLeftY: UpperLeftY + crop_size]
+            if len(img.shape) == 2:
+                imgCrop = img[
+                    UpperLeftX : UpperLeftX + crop_size,
+                    UpperLeftY : UpperLeftY + crop_size,
+                ]
             else:
-                imgCrop = img[UpperLeftX: UpperLeftX + crop_size,
-                              UpperLeftY: UpperLeftY + crop_size, :]
-            if(len(label.shape) == 2):
-                labelCrop = label[UpperLeftX: UpperLeftX + crop_size,
-                                  UpperLeftY: UpperLeftY + crop_size]
+                imgCrop = img[
+                    UpperLeftX : UpperLeftX + crop_size,
+                    UpperLeftY : UpperLeftY + crop_size,
+                    :,
+                ]
+            if len(label.shape) == 2:
+                labelCrop = label[
+                    UpperLeftX : UpperLeftX + crop_size,
+                    UpperLeftY : UpperLeftY + crop_size,
+                ]
             else:
-                labelCrop = label[UpperLeftX: UpperLeftX + crop_size,
-                                  UpperLeftY: UpperLeftY + crop_size, :]
+                labelCrop = label[
+                    UpperLeftX : UpperLeftX + crop_size,
+                    UpperLeftY : UpperLeftY + crop_size,
+                    :,
+                ]
             # save image pairs
             crop_image_name = f"{new_name:04d}{img_ext}"
             crop_image_path = Path(img_save_path) / crop_image_name
