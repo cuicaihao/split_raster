@@ -20,6 +20,13 @@ Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The
 
 ![Sample Image](docs/img/split_raster_sample.png)
 
+## Tutorial to generate the above sample image
+
+Open the notebook [SplitRaster Tutorial](notebooks/Tutorial.ipynb).
+
+This tutorial will show you how to use the package to split a large image into small tiles. So you can use the small tiles for your deep learning and computer vision tasks.
+
+[`pytorch`](https://pytorch.org/) is used in this tutorial. You can also use `tensorflow` or other deep learning frameworks.
 
 ## Use the packages
 

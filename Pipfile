@@ -12,6 +12,10 @@ mkdocs = "*"
 
 [dev-packages]
 pytest = "*"
+ipykernel = "*"
+torch = "*"
+matplotlib = "*"
+torchvision = "*"
 
 [requires]
 python_version = "3.9"
