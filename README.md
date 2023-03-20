@@ -12,11 +12,11 @@
 
 ## Introduction
 
-Split Raster is a python package to split a large image into small tiles. It is useful for deep learning and computer vision tasks. The package can also be used to split a large image into small tiles for other applications.
+Split Raster is an open-source and highly versatile Python package designed to easily break down large images into smaller, more manageable tiles. While the package is particularly useful for deep learning and computer vision tasks, it can be applied to a wide range of applications.
 
-The initial version of the package is developed by Chris to provide good support for deep learning and computer vision tasks on Satelite Images by creating tiled output image samples from an input raster dataset.
+Initially developed by the authoer to provide optimal support for deep learning and computer vision tasks, Split Raster was specifically designed for image segmentation tasks on satellite images as well as remote sensing methods. By generating tiled output image samples from an input raster dataset, Split Raster enables more efficient and effective analysis of large images. The package also includes a random sampling function that generates a fixed number of tiles for early experimentation.
 
-Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The `SplitRaster` package successfully generate 16 256x256 images tiles with automatic padding on the edges. You can adjust the tile size and the overlap of the tiles for your own applications.
+For example, let's say you have a set of RGB and GT images, each with dimensions of 1000-by-1000 pixels. Utilizing Split Raster, you can easily generate 16 tiles, each with dimensions of 256x256 pixels and automatic padding on the edges. The package also allows for customization of tile size and overlap to better suit individual project needs. Furthermore, Split Raster handles the padding and naming of output images automatically, saving time and effort (e.g., 0001.png, 0002.png, ..., 9999.png).
 
 ![Sample Image](docs/img/split_raster_sample.png)
 
