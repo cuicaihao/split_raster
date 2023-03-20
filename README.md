@@ -142,20 +142,24 @@ n = geo.random_crop_image(input_tif_image_path, input_save_image_path,  gt_tif_i
 print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added at {input_save_image_path, gt_save_image_path}.")
 
 ```
-
-## Update Log
-- 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).
-- 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
-
 ## Future Update:
 
 - [x] Add Random Sampling feature.
-- [ ] Create a GUI with Qt and generate an executable file
-- [ ] Add Sample Balancing feature.
+- [ ] ~~Create a GUI with Qt and generate an executable file~~ (Not a good idea, since it is not a good practice to use GUI in a package).
+- [ ] Add Sample Balancing feature, which can be used to balance the sample number of different classes, especially for the unbalanced dataset.
 
+ 
+## Update Log
+- 2023-Mar-19  Update github actions and add tutorial for the package.
+- 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).
+- 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
+ 
 ## Contribution Guidelines
 
-If you are interested in contributing to `splitraster`, please see our [contributing guidelines](CONTRIBUTING.md).
+If you run into issues or have questions, please [open an issue](https://github.com/cuicaihao/split_raster/issues) or [submit a pull request](https://github.com/cuicaihao/split_raster/pulls).
+
+If you are interested in contributing to `splitraster`, please see our [contributing guidelines](../CONTRIBUTING.md).
+  
  
 ## Project Organization
 
