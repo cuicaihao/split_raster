@@ -1,4 +1,3 @@
-
 from tqdm import tqdm
 
 from osgeo import gdal
@@ -17,16 +16,16 @@ def read_rasterArray(image_path):
         image = image[np.newaxis, :, :]
     proj = dataset.GetProjection()
     geotrans = dataset.GetGeoTransform()
-    return image,  geotrans, proj
+    return image, geotrans, proj
 
 
 def save_rasterGeoTIF(im_data, im_geotrans, im_proj, file_name):
     if Path(file_name).is_file():
         print(f"Overwrite existing file: {file_name}")
 
-    if 'int8' in im_data.dtype.name:
+    if "int8" in im_data.dtype.name:
         datatype = gdal.GDT_Byte
-    elif 'int16' in im_data.dtype.name:
+    elif "int16" in im_data.dtype.name:
         datatype = gdal.GDT_UInt16
     else:
         datatype = gdal.GDT_Float32
@@ -38,9 +37,10 @@ def save_rasterGeoTIF(im_data, im_geotrans, im_proj, file_name):
         im_bands, im_height, im_width = im_data.shape
 
     driver = gdal.GetDriverByName("GTiff")
-    dataset = driver.Create(file_name, int(im_width), int(
-        im_height), int(im_bands), datatype)
-    if(dataset != None):
+    dataset = driver.Create(
+        file_name, int(im_width), int(im_height), int(im_bands), datatype
+    )
+    if dataset != None:
         dataset.SetGeoTransform(im_geotrans)
         dataset.SetProjection(im_proj)
     for i in range(im_bands):
@@ -54,11 +54,11 @@ def save_rasterGeoTIF(im_data, im_geotrans, im_proj, file_name):
 #         im_data, path, format="GTiff",  prototype=image_prototype_path)
 #     return True
 
+
 def save_rasterArray(im_data, file_name):
     if Path(file_name).is_file():
         print(f"Overwrite existing file: {file_name}")
-    output = gdal_array.SaveArray(
-        im_data, file_name, format="GTiff")
+    output = gdal_array.SaveArray(im_data, file_name, format="GTiff")
     return True
 
 
@@ -71,13 +71,12 @@ def count_files(folder_path):
 
 
 def padding_mul_image(img, stride):
-
     D = img.shape[0]  # this one is for (D, H, W) format Channel First.
     height = img.shape[1]
     width = img.shape[2]
     # get the minial padding image size
-    H = int(np.ceil(height/stride)*stride)
-    W = int(np.ceil(width/stride)*stride)
+    H = int(np.ceil(height / stride) * stride)
+    W = int(np.ceil(width / stride) * stride)
 
     padded_img = np.zeros((D, H, W), dtype=img.dtype)
     for d in range(D):  # padding every layer
@@ -91,7 +90,7 @@ def padding_mul_image(img, stride):
 
 def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=True):
     # check input image
-    img,  geotrans, proj = read_rasterArray(img_path)
+    img, geotrans, proj = read_rasterArray(img_path)
     if img is None:
         print("Image not found")
         return None
@@ -102,10 +101,10 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
 
     print(f"Input Image File Shape (D, H, W):{ img.shape}")
 
-    stride = int(crop_size*(1-repetition_rate))
+    stride = int(crop_size * (1 - repetition_rate))
     print(f"{crop_size=}, {stride=}")
 
-    padded_img = padding_mul_image(img,  stride)
+    padded_img = padding_mul_image(img, stride)
 
     H = padded_img.shape[1]
     W = padded_img.shape[2]
@@ -120,19 +119,21 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
         print(f"There are {cnt} files in the {save_path}")
         print(f"New image name will start with {new_name}")
 
-    n_rows = int((H - crop_size)/stride + 1)
-    n_cols = int((W - crop_size)/stride + 1)
+    n_rows = int((H - crop_size) / stride + 1)
+    n_cols = int((W - crop_size) / stride + 1)
 
     def tile_generator():
         for idh in range(n_rows):
-            h = idh*stride
+            h = idh * stride
             for idw in range(n_cols):
-                w = idw*stride
+                w = idw * stride
                 yield h, w
 
-    with tqdm(total=n_rows*n_cols, desc='Generating', colour='green', leave=True, unit='img') as pbar:
+    with tqdm(
+        total=n_rows * n_cols, desc="Generating", colour="green", leave=True, unit="img"
+    ) as pbar:
         for n, (h, w) in enumerate(tile_generator()):
-            crop_img = padded_img[:, h:h+crop_size, w: w+crop_size]
+            crop_img = padded_img[:, h : h + crop_size, w : w + crop_size]
             crop_image_name = f"{new_name:04d}{ext}"
             crop_image_path = Path(save_path) / crop_image_name
             # save_rasterArray(crop_img,  str(crop_image_path)) # just save the raster image
@@ -140,19 +141,29 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
             new_name = new_name + 1
             pbar.update(1)
 
-    return n+1
+    return n + 1
 
 
-def random_crop_image(img_path, img_save_path,  label_path, label_save_path, crop_size=256, crop_number=20, img_ext='.tif', label_ext='.tif', overwrite=True):
+def random_crop_image(
+    img_path,
+    img_save_path,
+    label_path,
+    label_save_path,
+    crop_size=256,
+    crop_number=20,
+    img_ext=".tif",
+    label_ext=".tif",
+    overwrite=True,
+):
     """Generate Random cropped image pair from the input image pairs.
 
     Args:
         img_path (str): path of input image
-        img_save_path (str):  
+        img_save_path (str):
         crop_size (int): image tile size (H,W), i.e., 256x256
         overwrite (bool, optional): [overwrite existing files]. Defaults to True.
     """
-    img,  geotrans, proj = read_rasterArray(label_path)
+    img, geotrans, proj = read_rasterArray(label_path)
     if img is None:
         print("Input image is missing")
         return None
@@ -189,17 +200,25 @@ def random_crop_image(img_path, img_save_path,  label_path, label_save_path, cro
     H = img.shape[1]
     W = img.shape[2]
 
-    with tqdm(total=crop_number, desc='Generating', colour='green', leave=True, unit='img') as pbar:
-        while (crop_cnt < crop_number):
+    with tqdm(
+        total=crop_number, desc="Generating", colour="green", leave=True, unit="img"
+    ) as pbar:
+        while crop_cnt < crop_number:
             # Crop img_crop, label_crop paris and save them to the output folders.
             UpperLeftX = random.randint(0, H - crop_size)
             UpperLeftY = random.randint(0, W - crop_size)
 
-            imgCrop = img[:, UpperLeftX: UpperLeftX + crop_size,
-                          UpperLeftY: UpperLeftY + crop_size]
+            imgCrop = img[
+                :,
+                UpperLeftX : UpperLeftX + crop_size,
+                UpperLeftY : UpperLeftY + crop_size,
+            ]
 
-            labelCrop = label[:, UpperLeftX: UpperLeftX + crop_size,
-                              UpperLeftY: UpperLeftY + crop_size]
+            labelCrop = label[
+                :,
+                UpperLeftX : UpperLeftX + crop_size,
+                UpperLeftY : UpperLeftY + crop_size,
+            ]
             # save image pairs
             crop_image_name = f"{new_name:04d}{img_ext}"
             crop_image_path = Path(img_save_path) / crop_image_name

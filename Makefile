@@ -51,8 +51,8 @@ gh-pages:
 
 
 # ## Lint using flake8
-# lint:
-# 	flake8 src
+lint:
+	black src
 
 # ## Upload Data to S3
 # sync_data_to_s3:
