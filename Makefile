@@ -44,6 +44,11 @@ upload:
 	$(PYTHON_INTERPRETER) setup.py sdist bdist_wheel
 	twine upload dist/*
 
+## Update Github Pages
+gh-pages:
+	$(PYTHON_INTERPRETER) -m pip install -q mkdocs mkdocs-material
+	mkdocs gh-deploy
+
 
 # ## Lint using flake8
 lint:
