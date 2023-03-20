@@ -6,6 +6,10 @@
 [![image](https://img.shields.io/pypi/dm/splitraster?color=blue)](https://python.org/pypi/splitraster)
 [![image](https://img.shields.io/github/license/cuicaihao/split_raster?color=blue)](https://python.org/pypi/splitraster)
 
+## Quick Links
+
+- Pypi: [split-raster](https://pypi.org/project/splitraster/)
+- GitHub: [split-raster](https://github.com/cuicaihao/split_raster)
 
 ## Introduction
 
@@ -13,13 +17,12 @@ Split Raster is a python package to split a large image into small tiles. It is 
 
 The initial version of the package is developed by Chris to provide good support for deep learning and computer vision tasks on Satelite Images by creating tiled output image samples from an input raster dataset.
 
-Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The `SplitRaster` package successfully generate 16 256x256 images tiles with automatic padding on the edges. You can adjust the tile size and the overlap of the tiles for your own applications.
+Here is a sample image pairs, the size of RGB and GT are 1000-by-1000 large. The `SplitRaster` package successfully generate 16 256x256 images tiles with automatic padding on the edges. You can adjust the `tile size` and the `overlap` of the tiles for your own applications. The package takes care of the padding and the naming of the output images (e.g., 0001.png, 0002.png, ... , 9999.png).
 
 ![Sample Image](img/split_raster_sample.png)
 
 
-
-## Use the packages
+## Install the packages
 
 ```bash
 pip install splitraster
@@ -76,31 +79,6 @@ Generating: 100%|█████████████████████
 49 tiles sample of ./data/raw/GT.png are added at ./data/processed/GT
 ```
  
-You can also work with Remote Sensing (GeoTIFF) Satellite images such as Multispectral Images which have more bands or channels. All the codes will be the same, but with a small difference. Replace the `io` with the `geo` module.
-
-This feature also needs you to install the `gdal` package with the following command in your python environment.
-This package is not in the required packages due to many users may not use this function.
-
-```bash
-conda install -c conda-forge gdal
-```
-
-Sample Code:
-
-```Python
-from splitraster import geo
-input_image_path = "./data/raw/Input.tif"
-gt_image_path = "./data/raw/GT.tif"
-
-save_path = "../data/processed/Input"
-crop_size = 256
-repetition_rate = 0.5
-overwrite = False
-
-n = geo.split_image(input_image_path, save_path, crop_size,
-                   repetition_rate=repetition_rate, overwrite=overwrite)
-print(f"{n} tiles sample of {input_image_path} are added at {save_path}")
-```
 
 ## Random Sampling Code
 
@@ -120,25 +98,13 @@ print(f"{n} sample paris of {input_image_path, gt_image_path} are added at {inpu
 
 ```
 
-```python
-from splitraster import geo
-input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
-gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
-
-input_save_image_path = "./data/processed/Rand/RGB_TIF"
-gt_save_image_path = "./data/processed/Rand/GT_TIF"
-
-n = geo.random_crop_image(input_tif_image_path, input_save_image_path,  gt_tif_image_path, gt_save_image_path, crop_size=500, crop_number=20, overwrite=True)
-
-print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added at {input_save_image_path, gt_save_image_path}.")
-
-```
 
 ## Update Log
+- 2023-Mar-19  Update github actions and add tutorial for the package.
 - 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).
 - 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
  
 ## Contribution Guidelines
 
-If you are interested in contributing to `splitraster`, please see our [contributing guidelines](CONTRIBUTING.md).
+If you are interested in contributing to `splitraster`, please see our [contributing guidelines](../CONTRIBUTING.md).
   

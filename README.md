@@ -28,7 +28,7 @@ This tutorial will show you how to use the package to split a large image into s
 
 [`pytorch`](https://pytorch.org/) is used in this tutorial. You can also use `tensorflow` or other deep learning frameworks.
 
-## Use the packages
+## Install the packages
 
 ```bash
 pip install splitraster
