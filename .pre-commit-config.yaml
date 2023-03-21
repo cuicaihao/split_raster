@@ -1,0 +1,11 @@
+# Format code with black
+repos:
+  # Run black
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      # Run unit test on mlcc library
+      - id: black
+        language_version: python3.9
+        # args: ["--config", "simple-cancer-prediction/linter/.black"]
+        # exclude: "(.*\\/)*(__init__\\.py|template\\/.*)"

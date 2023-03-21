@@ -8,9 +8,11 @@ tqdm = "*"
 numpy = "*"
 scikit-image = "*"
 splitraster = {editable = true, path = "."}
-mkdocs = "*"
 
 [dev-packages]
+mkdocs = "*"
+black = "*"
+pre-commit = "*"
 pytest = "*"
 ipykernel = "*"
 torch = "*"
