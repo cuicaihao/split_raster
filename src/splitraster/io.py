@@ -7,33 +7,32 @@ from pathlib import Path
 import random
 
 
-def read_rasterArray(image_path):
-    dataset = gdal.Open(image_path, gdal.GA_ReadOnly)
-    image = dataset.ReadAsArray()  # get the rasterArray
-    # convert 2D raster to [1, H, W] format
-    if len(image.shape) == 2:
-        image = image[np.newaxis, :, :]
-    [D, H, W] = image.shape
-    pimg = Path(image_path)
-
-    print(pimg.stem, image.shape, image_path)
-
-    return image, [D, H, W]
-
-
-def read_image(file_name):
-    if not Path(file_name).is_file():
-        print(file_name + "Can not open file!")
+def read_image(file_name) -> np.ndarray:
+    """
+    Read image from file_name
+    Args: file_name: image file name
+    Returns: image array
+    Note:
+    The different color bands/channels are stored in the third dimension,
+    such that a gray-image is MxN, an RGB-image HxWx3 and an RGBA-image HxWx4.
+    """
+    try:
+        if not Path(file_name).is_file():
+            print(file_name + "Can not open file!")
+            return None
+        img = imread(file_name)
+        return img
+    except Exception as e:
+        print("Error in read_image: " + str(e))
         return None
-    img = imread(file_name)
-    # #     The different color bands/channels are stored in the third dimension,
-    # such that a gray-image is MxN,
-    # an RGB-image HxWx3 and
-    # an RGBA-image HxWx4.
-    return img
 
 
-def save_image(img_arr, file_name):
+def save_image(img_arr, file_name) -> str:
+    """
+    Save image to file_name
+    Args: img_arr: image array
+    Output: file_name: image file name
+    """
     if Path(file_name).is_file():
         print(f"Overwrite existing file: {file_name}")
     imsave(file_name, img_arr)
@@ -41,6 +40,11 @@ def save_image(img_arr, file_name):
 
 
 def count_files(folder_path):
+    """
+    Count the number of files in the folder
+    Args: folder_path: folder path
+    Returns: number of files
+    """
     count = 0
     for path in Path(folder_path).iterdir():
         if path.is_file():
@@ -48,7 +52,16 @@ def count_files(folder_path):
     return count
 
 
-def padding_image(img, stride):
+def padding_image(img, stride) -> np.ndarray:
+    """
+    Padding image to the size of multiple of stride
+    Args:
+        img: image array
+        stride: stride
+    Returns:
+        padded image array
+    """
+
     if len(img.shape) == 2:
         img = img[:, :, np.newaxis]
     height = img.shape[0]
@@ -68,7 +81,21 @@ def padding_image(img, stride):
     return padded_img
 
 
-def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=True):
+def split_image(
+    img_path, save_path, crop_size, repetition_rate=0, overwrite=True
+) -> int:
+    """
+    Split image into tiles
+    Args:
+        img_path: image path
+        save_path: save path
+        crop_size: crop size
+        repetition_rate: repetition rate
+        overwrite: overwrite existing files
+    Returns:
+        number of tiles
+    """
+
     # check input image
     img = read_image(img_path)
     if img is None:
@@ -139,7 +166,7 @@ def random_crop_image(
     img_ext=".jpg",
     label_ext=".png",
     overwrite=True,
-):
+) -> int:
     """Generate Random cropped image pair from the input image pairs.
 
     Args:
