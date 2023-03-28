@@ -38,7 +38,7 @@ from splitraster import io
 input_image_path = "./data/raw/RGB.png"
 gt_image_path = "./data/raw/GT.png"
 
-save_path = "../data/processed/RGB"
+save_path = "./data/processed/RGB"
 save_path_gt = "./data/processed/GT"
 
 crop_size = 256 # 256x256 pixels of the output tiles
