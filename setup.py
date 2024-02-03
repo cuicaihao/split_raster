@@ -18,9 +18,9 @@ setup(
     python_requires=">=3.7, <3.12",
     keywords="split raster tiling ",
     install_requires=[
-        "tqdm>=4.40.0, <5.*",
-        "numpy>=1.19.0, <2.*",
-        "scikit-image>=0.18.0, <1.*",
+        "tqdm>=4.40.0, <5.0.0",
+        "numpy>=1.19.0, <2.0.0",
+        "scikit-image>=0.18.0, <1.0.0",
         # 'gdal>=3.3.0' # too many local issues for this gdal python binding.
     ],
     classifiers=[
