@@ -88,7 +88,9 @@ def padding_mul_image(img, stride):
     return padded_img
 
 
-def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=True):
+def split_image(
+    img_path, save_path, crop_size, repetition_rate=0, overwrite=True, ext="."
+):
     # check input image
     img, geotrans, proj = read_rasterArray(img_path)
     if img is None:
@@ -167,6 +169,7 @@ def random_crop_image(
     if img is None:
         print("Input image is missing")
         return None
+
     label, geotrans, proj = read_rasterArray(img_path)
     if label is None:
         print("Label image is missing")
