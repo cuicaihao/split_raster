@@ -26,6 +26,7 @@ jobs:
           black --check .
 
   build:
+    needs: format_and_check
     runs-on: ubuntu-latest
     strategy:
       matrix:
