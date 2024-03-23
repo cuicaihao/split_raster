@@ -100,14 +100,24 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Get Package version
+        id: get_version
+        run: |
+          echo ::set-output name=version::$(python setup.py --version)
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
           draft: false
           prerelease: false
 
