@@ -8,12 +8,10 @@ on:
     branches: 
       -develop
       -feature/*
-      -'!master'
   pull_request:
     branches: 
       -develop
       -feature/*
-      -'!master'
 jobs:
   format_and_check:
     runs-on: ubuntu-latest
