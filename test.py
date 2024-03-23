@@ -7,7 +7,7 @@ def test_rgb_gt_slide_window() -> None:
     input_image_path = "./data/raw/RGB.png"
     gt_image_path = "./data/raw/GT.png"
 
-    # Step 2: prepare output directory and spliting configuration
+    # Step 2: prepare output directory and splitting configuration
     input_save_path = "./data/processed/RGB"
     gt_save_path = "./data/processed/GT"
 

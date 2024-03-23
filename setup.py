@@ -1,6 +1,13 @@
 from setuptools import find_packages, setup
 from pathlib import Path
 
+
+def read_requirements():
+    with open("requirements.txt", "r") as req_file:
+        requirements = req_file.read().splitlines()
+    return requirements
+
+
 setup(
     name="splitraster",
     version="0.3.5",
@@ -19,12 +26,7 @@ setup(
     ),
     python_requires=">=3.7, <3.13",
     keywords="split raster tiling ",
-    install_requires=[
-        "tqdm>=4.40.0, <5.0.0",
-        "numpy>=1.19.0, <2.0.0",
-        "scikit-image>=0.18.0, <1.0.0",
-        # 'gdal>=3.3.0' # too many local issues for this gdal python binding.
-    ],
+    install_requires=read_requirements(),
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",

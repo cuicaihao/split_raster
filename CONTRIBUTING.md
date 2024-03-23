@@ -10,8 +10,6 @@ First of all, thank you for your interest in contributing to this project. This 
 4. and wait for the review
 
 
-
-
 ### Clone the repository
 
 ```bash
