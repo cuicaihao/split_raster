@@ -2,6 +2,12 @@
 
 Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.
 
+Find more details:
+
+- Document: [split_raster](https://cuicaihao.github.io/split_raster/)
+- Pypi: [splitraster](https://pypi.org/project/splitraster/)
+
+
 ## Use the packages
 
 ```bash

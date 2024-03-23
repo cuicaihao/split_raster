@@ -150,6 +150,7 @@ print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added 
 
  
 ## Update Log
+- 2024-Mar-23  Update github actions enable full CI/CD workflow, also add python 3.12 for build and test (https://pypi.org/project/splitraster/0.3.5/)
 - 2023-Mar-19  Update github actions and add tutorial for the package.
 - 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).
 - 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
