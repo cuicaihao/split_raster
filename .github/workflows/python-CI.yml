@@ -1,13 +1,13 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: Python application
+name: SplitRaster Developmnet Build Install and Test
 
 on:
   push:
-    branches: [master, develop]
+    branches: [develop]
   pull_request:
-    branches: [master, develop]
+    branches: [develop]
 jobs:
   format_and_check:
     runs-on: ubuntu-latest
