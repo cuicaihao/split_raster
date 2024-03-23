@@ -5,6 +5,8 @@ setup(
     name="splitraster",
     version="0.3.5",
     author="Chris Cui",
+    license="MIT",
+    platforms="any",
     author_email="",
     description="Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.",
     long_description=Path("PyPi.md").read_text(),
@@ -15,7 +17,7 @@ setup(
     packages=find_packages(
         where="src", exclude=["data", "features", "models", "visualization"]
     ),
-    python_requires=">=3.7, <3.12",
+    python_requires=">=3.7, <3.13",
     keywords="split raster tiling ",
     install_requires=[
         "tqdm>=4.40.0, <5.0.0",
@@ -34,6 +36,7 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
     ],
 )
 # rm -rf build dist

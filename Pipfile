@@ -8,9 +8,9 @@ tqdm = "*"
 numpy = "*"
 scikit-image = "*"
 splitraster = {editable = true, path = "."}
-ipykernel = "*"
 
 [dev-packages]
+ipykernel = "*"
 mkdocs = "*"
 black = "*"
 pre-commit = "*"
@@ -21,4 +21,4 @@ matplotlib = "*"
 torchvision = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"

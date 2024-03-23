@@ -1,4 +1,4 @@
-# Split Raster  0.3.4
+# Split Raster
 
 [![image](https://img.shields.io/pypi/pyversions/splitraster)](https://python.org/pypi/splitraster)
 [![image](https://img.shields.io/pypi/v/splitraster?color=g)](https://python.org/pypi/splitraster)
