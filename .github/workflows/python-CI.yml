@@ -5,13 +5,10 @@ name: SplitRaster Developmnet Build Install and Test
 
 on:
   push:
-    branches: 
-      -develop
-      -feature/*
+    branches: [develop, feature/*]
+
   pull_request:
-    branches: 
-      -develop
-      -feature/*
+    branches: [develop, feature/*]
 jobs:
   format_and_check:
     runs-on: ubuntu-latest
