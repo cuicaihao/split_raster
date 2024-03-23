@@ -127,7 +127,7 @@ jobs:
           prerelease: false
 
   deploy_docs:
-    needs: release
+    needs: build
     runs-on: ubuntu-latest
     environment: production
     steps:
