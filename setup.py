@@ -5,6 +5,8 @@ setup(
     name="splitraster",
     version="0.3.5",
     author="Chris Cui",
+    license="MIT",
+    platforms="any",
     author_email="",
     description="Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset.",
     long_description=Path("PyPi.md").read_text(),
