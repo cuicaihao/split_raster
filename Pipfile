@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+numpy = "<2.0.0,>=1.19.0"
+tqdm = "<5.0.0,>=4.40.0"
+scikit-image = "<1.0.0,>=0.18.0"
+pytest = "*"
+
+[dev-packages]
+ipykernel = "*"
+
+[requires]
+python_version = "3.10"

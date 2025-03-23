@@ -2,3 +2,4 @@ numpy>=1.19.0, <2.0.0
 tqdm>=4.40.0, <5.0.0
 scikit-image>=0.18.0, <1.0.0
 # GDAL==3.8.4 # For GIS only on MacOS `brew install gdal` and `pip install GDAL==3.8.4`
+# python_version >= "3.10"
