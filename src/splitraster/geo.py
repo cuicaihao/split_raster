@@ -1,14 +1,12 @@
 from tqdm import tqdm
-
-from osgeo import gdal
-from osgeo import gdal_array
-
+from osgeo import gdal, gdal_array
 import numpy as np
 from pathlib import Path
 import random
+from typing import Tuple, Optional
 
 
-def read_rasterArray(image_path):
+def read_rasterArray(image_path: str) -> Tuple[np.ndarray, Tuple[float, ...], str]:
     dataset = gdal.Open(image_path, gdal.GA_ReadOnly)
     image = dataset.ReadAsArray()  # get the rasterArray
     # convert 2D raster to [1, H, W] format
@@ -19,7 +17,9 @@ def read_rasterArray(image_path):
     return image, geotrans, proj
 
 
-def save_rasterGeoTIF(im_data, im_geotrans, im_proj, file_name):
+def save_rasterGeoTIF(
+    im_data: np.ndarray, im_geotrans: Tuple[float, ...], im_proj: str, file_name: str
+) -> None:
     if Path(file_name).is_file():
         print(f"Overwrite existing file: {file_name}")
 
@@ -40,7 +40,7 @@ def save_rasterGeoTIF(im_data, im_geotrans, im_proj, file_name):
     dataset = driver.Create(
         file_name, int(im_width), int(im_height), int(im_bands), datatype
     )
-    if dataset != None:
+    if dataset is not None:
         dataset.SetGeoTransform(im_geotrans)
         dataset.SetProjection(im_proj)
     for i in range(im_bands):
@@ -48,33 +48,20 @@ def save_rasterGeoTIF(im_data, im_geotrans, im_proj, file_name):
     del dataset
 
 
-# def save_rasterArray(im_data, path, image_prototype_path):
-
-#     output = gdal_array.SaveArray(
-#         im_data, path, format="GTiff",  prototype=image_prototype_path)
-#     return True
-
-
-def save_rasterArray(im_data, file_name):
+def save_rasterArray(im_data: np.ndarray, file_name: str) -> bool:
     if Path(file_name).is_file():
         print(f"Overwrite existing file: {file_name}")
-    output = gdal_array.SaveArray(im_data, file_name, format="GTiff")
+    gdal_array.SaveArray(im_data, file_name, format="GTiff")
     return True
 
 
-def count_files(folder_path):
-    count = 0
-    for path in Path(folder_path).iterdir():
-        if path.is_file():
-            count += 1
-    return count
+def count_files(folder_path: str) -> int:
+    return sum(1 for path in Path(folder_path).iterdir() if path.is_file())
 
 
-def padding_mul_image(img, stride):
-    D = img.shape[0]  # this one is for (D, H, W) format Channel First.
-    height = img.shape[1]
-    width = img.shape[2]
-    # get the minial padding image size
+def padding_mul_image(img: np.ndarray, stride: int) -> np.ndarray:
+    D, height, width = img.shape  # (D, H, W) format Channel First.
+    # get the minimal padding image size
     H = int(np.ceil(height / stride) * stride)
     W = int(np.ceil(width / stride) * stride)
 
@@ -84,13 +71,17 @@ def padding_mul_image(img, stride):
         padded_img[d, :, :] = np.pad(
             onelayer, ((0, H - height), (0, W - width)), "reflect"
         )
-    # padded_img = np.squeeze(padded_img)  # Remove axes of length one
     return padded_img
 
 
 def split_image(
-    img_path, save_path, crop_size, repetition_rate=0, overwrite=True, ext="."
-):
+    img_path: str,
+    save_path: str,
+    crop_size: int,
+    repetition_rate: float = 0,
+    overwrite: bool = True,
+    ext: Optional[str] = ".",
+) -> Optional[int]:
     # check input image
     img, geotrans, proj = read_rasterArray(img_path)
     if img is None:
@@ -104,7 +95,7 @@ def split_image(
     print(f"Input Image File Shape (D, H, W):{ img.shape}")
 
     stride = int(crop_size * (1 - repetition_rate))
-    print(f"{crop_size=}, {stride=}")
+    print(f"crop_size = {crop_size}, stride = {stride}")
 
     padded_img = padding_mul_image(img, stride)
 
@@ -138,32 +129,36 @@ def split_image(
             crop_img = padded_img[:, h : h + crop_size, w : w + crop_size]
             crop_image_name = f"{new_name:04d}{ext}"
             crop_image_path = Path(save_path) / crop_image_name
-            # save_rasterArray(crop_img,  str(crop_image_path)) # just save the raster image
             save_rasterGeoTIF(crop_img, geotrans, proj, str(crop_image_path))
-            new_name = new_name + 1
+            new_name += 1
             pbar.update(1)
 
     return n + 1
 
 
 def random_crop_image(
-    img_path,
-    img_save_path,
-    label_path,
-    label_save_path,
-    crop_size=256,
-    crop_number=20,
-    img_ext=".tif",
-    label_ext=".tif",
-    overwrite=True,
-):
+    img_path: str,
+    img_save_path: str,
+    label_path: str,
+    label_save_path: str,
+    crop_size: int = 256,
+    crop_number: int = 20,
+    img_ext: str = ".tif",
+    label_ext: str = ".tif",
+    overwrite: bool = True,
+) -> Optional[int]:
     """Generate Random cropped image pair from the input image pairs.
 
     Args:
         img_path (str): path of input image
-        img_save_path (str):
+        img_save_path (str): path to save cropped images
+        label_path (str): path of input label
+        label_save_path (str): path to save cropped labels
         crop_size (int): image tile size (H,W), i.e., 256x256
-        overwrite (bool, optional): [overwrite existing files]. Defaults to True.
+        crop_number (int): number of crops to generate
+        img_ext (str): extension for image files
+        label_ext (str): extension for label files
+        overwrite (bool): overwrite existing files
     """
     img, geotrans, proj = read_rasterArray(label_path)
     if img is None:
@@ -231,8 +226,8 @@ def random_crop_image(
             crop_image_path = Path(label_save_path) / crop_image_name
             save_rasterGeoTIF(labelCrop, geotrans, proj, str(crop_image_path))
 
-            new_name = new_name + 1  # update image name
-            crop_cnt = crop_cnt + 1  # add crop count
+            new_name += 1  # update image name
+            crop_cnt += 1  # add crop count
             pbar.update(1)
 
     return crop_cnt  # return total crop sample pair number.
