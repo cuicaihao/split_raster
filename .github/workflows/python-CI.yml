@@ -11,7 +11,7 @@ on:
     branches: [develop, feature/*]
 jobs:
   format_and_check:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: development
     steps:
       - uses: actions/checkout@v3
@@ -29,11 +29,11 @@ jobs:
 
   build:
     needs: format_and_check
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: development
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
