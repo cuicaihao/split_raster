@@ -21,9 +21,7 @@ setup(
     url="https://github.com/cuicaihao/split_raster",
     package_dir={"": "src"},
     project_urls={},
-    packages=find_packages(
-        where="src", exclude=["data", "features", "models", "visualization"]
-    ),
+    packages=find_packages(where="src", exclude=["data"]),
     python_requires=">=3.7, <3.13",
     keywords="split raster tiling ",
     install_requires=read_requirements(),
