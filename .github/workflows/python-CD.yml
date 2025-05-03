@@ -13,7 +13,7 @@ on:
 jobs:
   format_and_check:
     runs-on: ubuntu-22.04
-    environment: production
+    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -31,7 +31,7 @@ jobs:
   build:
     needs: format_and_check
     runs-on: ubuntu-22.04
-    environment: production
+    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
     strategy:
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
@@ -63,7 +63,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-22.04
-    environment: production
+    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -98,7 +98,7 @@ jobs:
   release:
     needs: deploy
     runs-on: ubuntu-22.04
-    environment: production
+    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -129,7 +129,7 @@ jobs:
   deploy_docs:
     needs: build
     runs-on: ubuntu-22.04
-    environment: production
+    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
