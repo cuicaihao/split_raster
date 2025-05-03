@@ -2,7 +2,8 @@
 
 [![image](https://img.shields.io/pypi/pyversions/splitraster)](https://python.org/pypi/splitraster)
 [![image](https://img.shields.io/pypi/v/splitraster?color=g)](https://python.org/pypi/splitraster)
-[![CD](https://img.shields.io/github/actions/workflow/status/cuicaihao/split_raster/python-CD.yml?branch=master)](https://github.com/cuicaihao/split_raster/actions/workflows/python-CD.yml)
+[![SplitRaster Developmnet Build Install and Test](https://github.com/cuicaihao/split_raster/actions/workflows/python-CI.yml/badge.svg?branch=develop)](https://github.com/cuicaihao/split_raster/actions/workflows/python-CI.yml)
+[![SplitRaster Package Release and Publish](https://github.com/cuicaihao/split_raster/actions/workflows/python-CD.yml/badge.svg)](https://github.com/cuicaihao/split_raster/actions/workflows/python-CD.yml)
 [![DMonth](https://pepy.tech/badge/splitraster/month)](https://pepy.tech/project/splitraster)
 [![DTotal](https://pepy.tech/badge/splitraster?)](https://pepy.tech/project/splitraster)
 [![image](https://img.shields.io/github/license/cuicaihao/split_raster?color=blue)](https://python.org/pypi/splitraster)
