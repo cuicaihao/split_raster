@@ -12,7 +12,7 @@ on:
     branches: [master]
 jobs:
   format_and_check:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: production
     steps:
       - uses: actions/checkout@v3
@@ -30,7 +30,7 @@ jobs:
 
   build:
     needs: format_and_check
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: production
     strategy:
       matrix:
@@ -62,7 +62,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: production
     steps:
       - uses: actions/checkout@v3
@@ -97,7 +97,7 @@ jobs:
 
   release:
     needs: deploy
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: production
     steps:
       - uses: actions/checkout@v3
@@ -128,7 +128,7 @@ jobs:
 
   deploy_docs:
     needs: build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: production
     steps:
       - uses: actions/checkout@v3
