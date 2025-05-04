@@ -10,7 +10,7 @@ def read_requirements():
 
 setup(
     name="splitraster",
-    version="0.3.6",
+    version="0.3.7",
     author="Chris Cui",
     license="MIT",
     platforms="any",
