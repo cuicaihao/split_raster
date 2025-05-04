@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Split Raster</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> Split Raster
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#quick-links">Quick Links</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#install-the-packages">Install the packages</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#try-sample-code">Try Sample code</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#random-sampling-code">Random Sampling Code</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#update-log">Update Log</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#contribution-guidelines">Contribution Guidelines</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="tutorial/">Tutorial</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="gis/">GIS-RS</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Split Raster</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="split-raster">Split Raster</h1>
+<p><a href="https://python.org/pypi/splitraster"><img alt="image" src="https://img.shields.io/pypi/pyversions/splitraster" /></a>
+<a href="https://python.org/pypi/splitraster"><img alt="image" src="https://img.shields.io/pypi/v/splitraster?color=g" /></a>
+<a href="https://github.com/cuicaihao/split_raster/actions/workflows/python-CI.yml"><img alt="SplitRaster Developmnet Build Install and Test" src="https://github.com/cuicaihao/split_raster/actions/workflows/python-CI.yml/badge.svg?branch=develop" /></a>
+<a href="https://github.com/cuicaihao/split_raster/actions/workflows/python-CD.yml"><img alt="SplitRaster Package Release and Publish" src="https://github.com/cuicaihao/split_raster/actions/workflows/python-CD.yml/badge.svg" /></a>
+<a href="https://pepy.tech/project/splitraster"><img alt="DMonth" src="https://pepy.tech/badge/splitraster/month" /></a>
+<a href="https://pepy.tech/project/splitraster"><img alt="DTotal" src="https://pepy.tech/badge/splitraster?" /></a>
+<a href="https://python.org/pypi/splitraster"><img alt="image" src="https://img.shields.io/github/license/cuicaihao/split_raster?color=blue" /></a></p>
+<h2 id="quick-links">Quick Links</h2>
+<ul>
+<li>PyPI: <a href="https://pypi.org/project/splitraster/">split-raster</a></li>
+<li>GitHub: <a href="https://github.com/cuicaihao/split_raster">split-raster</a></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p><img alt="Sample Image" src="img/split_raster_sample.png" /></p>
+<p>Split Raster is an open-source and highly versatile Python package designed to easily break down large images into smaller, more manageable tiles. While the package is particularly useful for deep learning and computer vision tasks, it can be applied to a wide range of applications.</p>
+<p>Initially developed by <a href="https://github.com/cuicaihao">Caihao Cui</a> to provide optimal support for deep learning and computer vision tasks, Split Raster was specifically designed for image segmentation tasks on satellite images as well as remote sensing methods. By generating tiled output image samples from an input raster dataset, Split Raster enables more efficient and effective analysis of large images. The package also includes a random sampling function that generates a fixed number of tiles for early experimentation.</p>
+<p>For example, let's say you have a set of RGB and GT images, each with dimensions of 1000-by-1000 pixels. Utilizing <code>Split Raster</code>, you can easily generate 16 tiles, each with dimensions of 256x256 pixels and automatic padding on the edges. The package also allows for customization of tile size and overlap to better suit individual project needs. Furthermore, Split Raster handles the padding and naming of output images automatically, saving time and effort (e.g., 0001.png, 0002.png, ..., 9999.png).</p>
+<h2 id="install-the-packages">Install the packages</h2>
+<pre><code class="language-bash">pip install splitraster
+</code></pre>
+<h2 id="try-sample-code">Try Sample code</h2>
+<p>The sample image can be found in the GitHub repo.</p>
+<pre><code class="language-python">
+from splitraster import io
+
+input_image_path = &quot;./data/raw/RGB.png&quot;
+gt_image_path = &quot;./data/raw/GT.png&quot;
+
+save_path = &quot;./data/processed/RGB&quot;
+save_path_gt = &quot;./data/processed/GT&quot;
+
+crop_size = 256 # 256x256 pixels of the output tiles
+repetition_rate = 0.0 # 0.0 means no overlap
+overwrite = False # if True, overwrite the existing files in the save_path
+
+n = io.split_image(input_image_path, save_path, crop_size,
+                   repetition_rate=repetition_rate, overwrite=overwrite)
+print(f&quot;{n} tiles sample of {input_image_path} are added at {save_path}&quot;)
+
+
+n = io.split_image(gt_image_path, save_path_gt, crop_size,
+                   repetition_rate=repetition_rate, overwrite=overwrite)
+print(f&quot;{n} tiles sample of {gt_image_path} are added at {save_path_gt}&quot;)
+
+
+</code></pre>
+<p>Possible results. Note that if you did not set the overwrite parameter to True, the existing files will not be overwritten. The name of the new files will start with the next number of the existing files.</p>
+<pre><code class="language-bash">Input Image File Shape (H, W, D):(1000, 1000, 3)
+crop_size = 256, stride = 256
+Padding Image File Shape (H, W, D):(1024, 1024, 3)
+Generating: 100%|██████████| 16/16 [00:00&lt;00:00, 27.63img/s]
+16 tiles sample of ../data/raw/RGB.png are added at ../data/processed/RGB
+Input Image File Shape (H, W, D):(1000, 1000)
+crop_size = 256, stride = 256
+Padding Image File Shape (H, W, D):(1024, 1024)
+Generating: 100%|██████████| 16/16 [00:00&lt;00:00, 48.39img/s]16 tiles sample of ../data/raw/GT.png are added at ../data/processed/GT
+</code></pre>
+<h2 id="random-sampling-code">Random Sampling Code</h2>
+<p>The basic implementation is still the same as the above. Just replace the 'split_image' method to 'rand_crop_image'.</p>
+<pre><code class="language-python">from splitraster import io
+input_image_path = &quot;./data/raw/RGB.png&quot;
+gt_image_path = &quot;./data/raw/GT.png&quot;
+
+input_save_path = &quot;./data/processed/Rand/RGB&quot;
+gt_save_path = &quot;./data/processed/Rand/GT&quot;
+
+n = io.random_crop_image(input_image_path, input_save_path,  gt_image_path, gt_save_path, crop_size=256, crop_number=20, img_ext='.png', label_ext='.png', overwrite=True)
+
+print(f&quot;{n} sample paris of {input_image_path, gt_image_path} are added at {input_save_path, gt_save_path}.&quot;)
+
+</code></pre>
+<p>Results:</p>
+<pre><code class="language-bash">Generating: 100%|██████████| 20/20 [00:01&lt;00:00, 19.27img/s]20 sample paris of ('../data/raw/RGB.png', '../data/raw/GT.png') are added at ('../data/processed/Rand/RGB', '../data/processed/Rand/GT').
+</code></pre>
+<h2 id="update-log">Update Log</h2>
+<ul>
+<li>2023-Mar-19  Update github actions and add tutorial for the package.</li>
+<li>2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).</li>
+<li>2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .</li>
+</ul>
+<h2 id="contribution-guidelines">Contribution Guidelines</h2>
+<p>If you run into issues or have questions, please <a href="https://github.com/cuicaihao/split_raster/issues">open an issue</a> or <a href="https://github.com/cuicaihao/split_raster/pulls">submit a pull request</a>.</p>
+<p>If you are interested in contributing to <code>splitraster</code>, please see our <a href="../CONTRIBUTING.md">contributing guidelines</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="tutorial/" class="btn btn-neutral float-right" title="Tutorial">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="tutorial/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-05-04 00:38:22.912609+00:00
+-->

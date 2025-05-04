@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>GIS-RS - Split Raster</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "GIS-RS";
+        var mkdocs_page_input_path = "gis.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Split Raster
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorial</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">GIS-RS</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#try-sample-code">Try Sample code</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#random-sampling-code">Random Sampling Code</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Split Raster</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">GIS-RS</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="split-raster-images-for-remote-sensing-geotiff-and-gis">Split Raster Images for Remote Sensing (GeoTIFF) and GIS</h1>
+<p>If you are working with Remote Sensing images, you can use this package to split the images into small tiles.</p>
+<p>You can also work with Remote Sensing (GeoTIFF) Satellite images such as Multispectral Images which have more bands or channels. All the codes will be the same, but with a small difference. Replace the <code>io</code> with the <code>geo</code> module.</p>
+<p>This feature also needs you to install the <a href="https://gdal.org/"><code>gdal</code> package</a> with the following command in your python environment.</p>
+<p><img alt="gdal" src="../img/gdalicon.png" /></p>
+<p>This package is not in the required packages due to many users may not use this function.</p>
+<pre><code class="language-bash">conda install -c conda-forge gdal
+</code></pre>
+<h2 id="try-sample-code">Try Sample code</h2>
+<p>Sample Code:</p>
+<pre><code class="language-Python">from splitraster import geo
+input_image_path = &quot;./data/raw/Input.tif&quot;
+gt_image_path = &quot;./data/raw/GT.tif&quot;
+
+save_path = &quot;../data/processed/Input&quot;
+crop_size = 256
+repetition_rate = 0.5
+overwrite = False
+
+n = geo.split_image(input_image_path, save_path, crop_size,
+                   repetition_rate=repetition_rate, overwrite=overwrite)
+print(f&quot;{n} tiles sample of {input_image_path} are added at {save_path}&quot;)
+</code></pre>
+<h2 id="random-sampling-code">Random Sampling Code</h2>
+<pre><code class="language-python">from splitraster import geo
+input_tif_image_path = &quot;./data/raw/TIF/RGB5k.tif&quot;
+gt_tif_image_path = &quot;./data/raw/TIF/GT5k.tif&quot;
+
+input_save_image_path = &quot;./data/processed/Rand/RGB_TIF&quot;
+gt_save_image_path = &quot;./data/processed/Rand/GT_TIF&quot;
+
+n = geo.random_crop_image(input_tif_image_path, input_save_image_path,  gt_tif_image_path, gt_save_image_path, crop_size=500, crop_number=20, overwrite=True)
+
+print(f&quot;{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added at {input_save_image_path, gt_save_image_path}.&quot;)
+
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../tutorial/" class="btn btn-neutral float-left" title="Tutorial"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../about/" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../tutorial/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../about/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
