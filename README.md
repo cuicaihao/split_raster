@@ -8,10 +8,8 @@
 [![DTotal](https://pepy.tech/badge/splitraster?)](https://pepy.tech/project/splitraster)
 [![image](https://img.shields.io/github/license/cuicaihao/split_raster?color=blue)](https://python.org/pypi/splitraster)
 
-
 - Document: [splitraster](https://cuicaihao.github.io/split_raster/)
 - Pypi: [splitraster](https://pypi.org/project/splitraster/)
-
 
 ## Introduction
 
@@ -33,11 +31,29 @@ This tutorial will show you how to use the package to split a large image into s
 
 ## Install the packages
 
+### Requirements
+
+- **Python >= 3.10**
+- **Core Dependencies:**
+  - `numpy >= 1.25.0`
+  - `tqdm >= 4.64.0`
+  - `scikit-image >= 0.21.0`
+  - `torch >= 2.10.0`
+  - `pre-commit >= 2.21.0`
+
+### Installation
+
+```bash
+uv pip install splitraster
+```
+
+or via pip:
+
 ```bash
 pip install splitraster
 ```
 
-## Try Sample code 
+## Try Sample code
 
 The sample image can be found in the GitHub repo.
 
@@ -87,9 +103,8 @@ New image name will start with 50
 Generating: 100%|████████████████████████████████████████████████████████████| 49/49 [00:00<00:00, 139.72img/s]
 49 tiles sample of ./data/raw/GT.png are added at ./data/processed/GT
 ```
- 
-Check Notebook for Details: [Tutorial](notebooks/Tutorial.ipynb)
 
+Check Notebook for Details: [Tutorial](notebooks/Tutorial.ipynb)
 
 ## GIS TIFF Image
 
@@ -97,7 +112,7 @@ You can also work with Remote Sensing (GeoTIFF) Satellite images such as Multisp
 
 This feature also needs you to install the `gdal` package with the following command in your python environment.
 
-This package is not in the required packages due to many users may not use this function. 
+This package is not in the required packages due to many users may not use this function.
 
 However, if you do, please consider create the conda environment as follows for your application.
 
@@ -111,16 +126,18 @@ pip install splitraster
 ```
 
 On a Mac, you can install these using Homebrew:
+
 ```bash
 brew install gdal
 ```
+
 then, you can install the Python GDAL package:
 
 ```bash
 pip install GDAl
 ```
-Please note that installing GDAL can be complex due to its system dependencies. If you encounter issues, you may need to consult the GDAL documentation or seek help from the community.
 
+Please note that installing GDAL can be complex due to its system dependencies. If you encounter issues, you may need to consult the GDAL documentation or seek help from the community.
 
 Sample Code:
 
@@ -140,7 +157,6 @@ print(f"{n} tiles sample of {input_image_path} are added at {save_path}")
 ```
 
 Check Notebook for Details: [Tutorial_II](notebooks/Tutorial_II.ipynb)
-
 
 ## Random Sampling Code
 
@@ -178,6 +194,6 @@ print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added 
 
 If you run into issues or have questions, please [open an issue](https://github.com/cuicaihao/split_raster/issues) or [submit a pull request](https://github.com/cuicaihao/split_raster/pulls).
 
-If you are interested in contributing to `splitraster`, please see our [contributing guidelines](../CONTRIBUTING.md).
+If you are interested in contributing to `splitraster`, please see our [contributing guidelines](CONTRIBUTING.md).
   
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>

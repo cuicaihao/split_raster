@@ -6,10 +6,10 @@ For example, we have a large image of size 1000-by-1000, and we want to split it
 
 Setup your local or cloud environment for this demo.
 
-This demo we use the python 3.10, but the package is compatible with python 3.7, 3.8, 3.9, 3.10, 3.11 and 3.12. 
+This demo we use Python >= 3.10.
 
 ```bash
->pip install -q splitraster
+> uv pip install -q splitraster
 ```
 
 ## Create Image Sample Pairs

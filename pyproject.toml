@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "splitraster"
+version = "0.4.0"
+authors = [
+    {name = "Chris Cui", email = "caihaocui@gmail.com"},
+]
+description = "Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset."
+readme = "PyPi.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["split", "raster", "tiling"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "numpy>=1.25.0,<2.0.0",
+    "tqdm>=4.64.0,<5.0.0",
+    "scikit-image>=0.21.0,<1.0.0",
+    "pre-commit>=2.21.0",
+    "torch>=2.10.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/cuicaihao/split_raster"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/splitraster"]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ipykernel",
+    "torch",
+    "torchvision",
+    "matplotlib",
+    "black[jupyter]>=26.3.1",
+]

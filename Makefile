@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements  test_environment help
+.PHONY: clean data lint requirements rebuild upload gh-pages test_environment help
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -22,8 +22,7 @@ endif
 
 ## Install Python Dependencies
 requirements: test_environment
-	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+	uv sync
 
 ## Make Dataset
 data: requirements
@@ -37,11 +36,11 @@ clean:
 ## Rebuilt the wheel and upload to PyPI
 rebuild:
 	rm -rf build dist
-	$(PYTHON_INTERPRETER) setup.py sdist bdist_wheel
+	uv build
 	twine upload dist/*
 ## Upload to PyPI
 upload:
-	$(PYTHON_INTERPRETER) setup.py sdist bdist_wheel
+	uv build
 	twine upload dist/*
 
 ## Update Github Pages
@@ -50,7 +49,7 @@ gh-pages:
 	mkdocs gh-deploy
 
 
-# ## Lint using flake8
+# ## Format using black
 lint:
 	black src
 
