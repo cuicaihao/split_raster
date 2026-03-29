@@ -5,11 +5,19 @@ If you are working with Remote Sensing images, you can use this package to split
 
 You can also work with Remote Sensing (GeoTIFF) Satellite images such as Multispectral Images which have more bands or channels. All the codes will be the same, but with a small difference. Replace the `io` with the `geo` module.
 
-This feature also needs you to install the [`gdal` package](https://gdal.org/) with the following command in your python environment.
+This feature also needs you to install the [`gdal` package](https://gdal.org/). We provide an optional dependency extra for this:
 
-![gdal](img/gdalicon.png)
+```bash
+uv pip install "splitraster[geo]"
+```
 
-This package is not in the required packages due to many users may not use this function.
+or via pip:
+
+```bash
+pip install "splitraster[geo]"
+```
+
+Or if you are using conda:
 
 ```bash
 conda install -c conda-forge gdal
@@ -21,10 +29,10 @@ Sample Code:
 
 ```Python
 from splitraster import geo
-input_image_path = "./data/raw/Input.tif"
-gt_image_path = "./data/raw/GT.tif"
+input_image_path = "./tests/data/raw/TIF/RGB5k.tif"
+gt_image_path = "./tests/data/raw/TIF/GT5k.tif"
 
-save_path = "../data/processed/Input"
+save_path = "./tests/data/processed/Input"
 crop_size = 256
 repetition_rate = 0.5
 overwrite = False
@@ -35,16 +43,16 @@ print(f"{n} tiles sample of {input_image_path} are added at {save_path}")
 ```
 
 ## Random Sampling Code
+
 ```python
 from splitraster import geo
-input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
-gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
+input_tif_image_path = "./tests/data/raw/TIF/RGB5k.tif"
+gt_tif_image_path = "./tests/data/raw/TIF/GT5k.tif"
 
-input_save_image_path = "./data/processed/Rand/RGB_TIF"
-gt_save_image_path = "./data/processed/Rand/GT_TIF"
+input_save_image_path = "./tests/data/processed/Rand/RGB_TIF"
+gt_save_image_path = "./tests/data/processed/Rand/GT_TIF"
 
 n = geo.random_crop_image(input_tif_image_path, input_save_image_path,  gt_tif_image_path, gt_save_image_path, crop_size=500, crop_number=20, overwrite=True)
 
 print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added at {input_save_image_path, gt_save_image_path}.")
-
 ```

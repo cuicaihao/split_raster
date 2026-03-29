@@ -1,10 +1,11 @@
 # import time
 # from osgeo import gdal
-from tqdm import tqdm
+import random
+from pathlib import Path
+
 import numpy as np
 from skimage.io import imread, imsave
-from pathlib import Path
-import random
+from tqdm import tqdm
 
 
 def read_image(file_name) -> np.ndarray:
@@ -74,16 +75,12 @@ def padding_image(img, stride) -> np.ndarray:
     padded_img = np.zeros([H, W, D], dtype=img.dtype)
     for d in range(D):  # padding every layer
         onelayer = img[:, :, d]
-        padded_img[:, :, d] = np.pad(
-            onelayer, ((0, H - height), (0, W - width)), "reflect"
-        )
+        padded_img[:, :, d] = np.pad(onelayer, ((0, H - height), (0, W - width)), "reflect")
     padded_img = np.squeeze(padded_img)  # Remove axes of length one
     return padded_img
 
 
-def split_image(
-    img_path, save_path, crop_size, repetition_rate=0, overwrite=True
-) -> int:
+def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=True) -> int:
     """
     Split image into tiles
     Args:
@@ -105,7 +102,7 @@ def split_image(
     # check output folder, if not exists, creat it.
     Path(save_path).mkdir(parents=True, exist_ok=True)
 
-    print(f"Input Image File Shape (H, W, D):{ img.shape}")
+    print(f"Input Image File Shape (H, W, D):{img.shape}")
 
     stride = int(crop_size * (1 - repetition_rate))
     print(f"crop_size = {crop_size}, stride = {stride}")
@@ -113,7 +110,7 @@ def split_image(
     padded_img = padding_image(img, stride)
     H = padded_img.shape[0]
     W = padded_img.shape[1]
-    print(f"Padding Image File Shape (H, W, D):{ padded_img.shape}")
+    print(f"Padding Image File Shape (H, W, D):{padded_img.shape}")
 
     if overwrite:
         new_name = 1
@@ -212,9 +209,7 @@ def random_crop_image(
     H = img.shape[0]
     W = img.shape[1]
 
-    with tqdm(
-        total=crop_number, desc="Generating", colour="green", leave=True, unit="img"
-    ) as pbar:
+    with tqdm(total=crop_number, desc="Generating", colour="green", leave=True, unit="img") as pbar:
         while crop_cnt < crop_number:
             # Crop img_crop, label_crop paris and save them to the output folders.
             UpperLeftX = random.randint(0, H - crop_size)

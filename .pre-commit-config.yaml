@@ -1,8 +1,8 @@
-# Format code with black
+# Format and lint code with ruff
 repos:
-  # Run black
-  - repo: https://github.com/psf/black
-    rev: 23.3.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.7
     hooks:
-      - id: black
-        language_version: python3.10
+      - id: ruff
+        args: [ --fix ]
+      - id: ruff-format

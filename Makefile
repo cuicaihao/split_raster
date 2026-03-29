@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements  test_environment help
+.PHONY: clean lint requirements rebuild upload gh-pages test help
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -21,13 +21,8 @@ endif
 #################################################################################
 
 ## Install Python Dependencies
-requirements: test_environment
-	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-
-## Make Dataset
-data: requirements
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
+requirements:
+	uv sync
 
 ## Delete all compiled Python files
 clean:
@@ -37,27 +32,25 @@ clean:
 ## Rebuilt the wheel and upload to PyPI
 rebuild:
 	rm -rf build dist
-	$(PYTHON_INTERPRETER) setup.py sdist bdist_wheel
+	uv build
 	twine upload dist/*
 ## Upload to PyPI
 upload:
-	$(PYTHON_INTERPRETER) setup.py sdist bdist_wheel
+	uv build
 	twine upload dist/*
 
 ## Update Github Pages
 gh-pages:
-	$(PYTHON_INTERPRETER) -m pip install -q mkdocs mkdocs-material
-	mkdocs gh-deploy
+	mkdocs gh-deploy --force
 
+## Run tests
+test:
+	pytest tests/ -v
 
-# ## Lint using flake8
+## Lint and format using ruff
 lint:
-	black src
-
-
-## Test python environment is setup correctly
-test_environment:
-	$(PYTHON_INTERPRETER) test_environment.py
+	ruff check . --fix
+	ruff format .
 
 #################################################################################
 # PROJECT RULES                                                                 #
