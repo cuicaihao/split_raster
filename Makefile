@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements rebuild upload gh-pages test_environment help
+.PHONY: clean lint requirements rebuild upload gh-pages test help
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -21,12 +21,8 @@ endif
 #################################################################################
 
 ## Install Python Dependencies
-requirements: test_environment
+requirements:
 	uv sync
-
-## Make Dataset
-data: requirements
-	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
 
 ## Delete all compiled Python files
 clean:
@@ -45,18 +41,16 @@ upload:
 
 ## Update Github Pages
 gh-pages:
-	$(PYTHON_INTERPRETER) -m pip install -q mkdocs mkdocs-material
-	mkdocs gh-deploy
+	mkdocs gh-deploy --force
 
+## Run tests
+test:
+	pytest tests/ -v
 
-# ## Format using black
+## Lint and format using ruff
 lint:
-	black src
-
-
-## Test python environment is setup correctly
-test_environment:
-	$(PYTHON_INTERPRETER) test_environment.py
+	ruff check . --fix
+	ruff format .
 
 #################################################################################
 # PROJECT RULES                                                                 #

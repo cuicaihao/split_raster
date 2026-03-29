@@ -6,11 +6,8 @@ The initial version of the package is developed by Chris to provide good support
 
 Visit [Author's Blog](https://cuicaihao.com) for more information.
 
-Related Projects: 
+Related Projects:
 
 - [Aerial Image Segmentation with Deep Learning on PyTorch](https://cuicaihao.com/2021/08/12/aerial-image-segmentation-with-deep-learning-on-pytorch/)
 
-
 - [Roads from Above: Augmenting Civil Engineering & Geospatial Workflows with Machine Learning](https://cuicaihao.com/2018/10/21/roads-from-above/)
-
-

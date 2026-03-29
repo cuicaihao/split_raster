@@ -9,7 +9,6 @@ First of all, thank you for your interest in contributing to this project. This 
 3. Submit a pull request
 4. and wait for the review
 
-
 ### Clone the repository
 
 ```bash
@@ -51,7 +50,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync
 
 # run tests
-uv run pytest test.py -v
+uv run pytest tests/ -v
 ```
 
 Then if you run the following command in your shell, you will see the installed packages.
@@ -67,21 +66,19 @@ tqdm
 ```
 
 ## Testing
+
 To test your changes, please run the following command:
 
 ```bash
-❯ pytest test.py -v 
+❯ pytest tests/ -v 
 cachedir: .pytest_cache
-rootdir: /Users/caihaocui/Documents/GitHub/split_raster
+rootdir: /Users/caihaocui/GitHub/split_raster
 collected 2 items                                                                        
 
-test.py::test_rgb_gt_slide_window PASSED                                           [ 50%]
-test.py::test_rgb_gt_random_crop PASSED                                            [100%]
+tests/test_splitraster.py::test_rgb_gt_slide_window PASSED                         [ 50%]
+tests/test_splitraster.py::test_rgb_gt_random_crop PASSED                          [100%]
 ```
 
 If you see the above output, it means that you have successfully passed the test.
 
-
 ## END
-
-

@@ -7,7 +7,6 @@ Find more details:
 - Document: [split_raster](https://cuicaihao.github.io/split_raster/)
 - Pypi: [splitraster](https://pypi.org/project/splitraster/)
 
-
 ## Use the packages
 
 ### Requirements
@@ -128,8 +127,4 @@ print(f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added 
 
 ```
 
-Future Update:
-
-- [x] Add Random Sampling feature.
-- [ ] Create a GUI with Qt and generate an executable file
-- [ ] Add Sample Balancing feature.
+## END
