@@ -5,12 +5,10 @@ build-backend = "hatchling.build"
 [project]
 name = "splitraster"
 version = "0.4.0"
-authors = [
-    {name = "Chris Cui", email = "caihaocui@gmail.com"},
-]
+authors = [{ name = "Chris Cui" }]
 description = "Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset."
 readme = "PyPi.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 requires-python = ">=3.10"
 keywords = ["split", "raster", "tiling"]
 classifiers = [
@@ -28,9 +26,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-geo = [
-    "gdal",
-]
+geo = ["gdal"]
 
 [project.urls]
 Homepage = "https://github.com/cuicaihao/split_raster"
@@ -62,4 +58,3 @@ ignore = []
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
-
