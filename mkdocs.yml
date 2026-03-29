@@ -1,8 +1,9 @@
 site_name: Split Raster
-# site_url: https://example.com/ # TODO: edit it before you deploy your site to a production server.
+site_url: https://cuicaihao.github.io/split_raster/
 nav:
   - Home: index.md
   - Tutorial: tutorial.md
   - GIS-RS: gis.md
+  - Contributing: CONTRIBUTING.md
   - About: about.md
 theme: readthedocs

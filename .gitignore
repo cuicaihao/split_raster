@@ -76,7 +76,15 @@ target/
 .ipynb_checkpoints/
 
 # exclude data from source control by default
-/data/processed/
+tests/data/processed/
+tests/data/interim/
+tests/data/external/
+
+# Keep .gitkeep files in data directories
+!tests/data/**/.gitkeep
+
+# Ignore large TIFF files in raw if they are not needed for basic CI
+# tests/data/raw/TIF/*.tif
 
 # Mac OS-specific storage files
 .DS_Store

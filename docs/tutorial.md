@@ -6,10 +6,10 @@ For example, we have a large image of size 1000-by-1000, and we want to split it
 
 Setup your local or cloud environment for this demo.
 
-This demo we use the python 3.10, but the package is compatible with python 3.7, 3.8, 3.9, 3.10, 3.11 and 3.12. 
+This demo we use Python >= 3.10.
 
 ```bash
->pip install -q splitraster
+> uv pip install -q splitraster
 ```
 
 ## Create Image Sample Pairs
@@ -17,11 +17,11 @@ This demo we use the python 3.10, but the package is compatible with python 3.7,
 ```python
 from splitraster import io
 
-input_image_path = "../data/raw/RGB.png"
-gt_image_path = "../data/raw/GT.png"
+input_image_path = "./tests/data/raw/RGB.png"
+gt_image_path = "./tests/data/raw/GT.png"
 
-save_path = "../data/processed/RGB"
-save_path_gt = "../data/processed/GT"
+save_path = "./tests/data/processed/RGB"
+save_path_gt = "./tests/data/processed/GT"
 
 crop_size = 256
 repetition_rate = 0 # <----- change this value to 0.5 for 50% overlap
@@ -36,7 +36,9 @@ n = io.split_image(gt_image_path, save_path_gt, crop_size,
                    repetition_rate=repetition_rate, overwrite=overwrite)
 print(f"{n} tiles sample of {gt_image_path} are added at {save_path_gt}")
 ```
+
 Output:
+
 ```bash
 Input Image File Shape (H, W, D):(1000, 1000, 3)
 crop_size = 256, stride = 256
@@ -52,11 +54,11 @@ If you want to create a small data set at the early stage for exploaration. Use 
 
 ```python
 from splitraster import io
-input_image_path = "../data/raw/RGB.png"
-gt_image_path = "../data/raw/GT.png"
+input_image_path = "./tests/data/raw/RGB.png"
+gt_image_path = "./tests/data/raw/GT.png"
 
-input_save_path = "../data/processed/Rand/RGB"  
-gt_save_path = "../data/processed/Rand/GT"
+input_save_path = "./tests/data/processed/Rand/RGB"  
+gt_save_path = "./tests/data/processed/Rand/GT"
 
 n = io.random_crop_image(input_image_path, input_save_path,  gt_image_path, gt_save_path, crop_size=256, crop_number=20, img_ext='.png', label_ext='.png', overwrite=True)
 
@@ -69,9 +71,6 @@ Result:
 Generating: 100%|██████████| 20/20 [00:01<00:00, 19.27img/s]20 sample paris of ('../data/raw/RGB.png', '../data/raw/GT.png') are added at ('../data/processed/Rand/RGB', '../data/processed/Rand/GT').
 ```
 
-
-
-
 ## Use the output of the Split-Raster as the input of the Deep Learning Model
 
 We will use pytorch as the deep learning framework for this demo.
@@ -81,7 +80,6 @@ pip install -q torch torchvision
 ```
 
 ## Create a DataLoader for the Split-Raster output
-
 
 ```python
 
@@ -95,7 +93,9 @@ from skimage.io import imread, imsave
 import os 
 import numpy as np
 ```
+
 create the `DatasetSegmentation` class to create a custom dataset class for the deep learning model.
+
 ```python
 # Create a custom dataset class
 class DatasetSegmentation(torch.utils.data.Dataset):
@@ -116,7 +116,7 @@ class DatasetSegmentation(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.imgs)
-AerialDataset = DatasetSegmentation("../data/processed/RGB", "../data/processed/GT")
+AerialDataset = DatasetSegmentation("./tests/data/processed/RGB", "./tests/data/processed/GT")
 ```
 
 Create a DataLoader and read a batch of images from the Split-Raster output.
@@ -135,7 +135,8 @@ Output:
 Feature batch shape: torch.Size([16, 3, 256, 256])
 Labels batch shape: torch.Size([16, 256, 256])
 ```
-## Visualize the images and labels.
+
+## Visualize the images and labels
 
 ``` python
 # Select 16 random images from the training set
@@ -184,15 +185,15 @@ plt.show()
 ```
 
 Output:
+
 ```
 (torch.Size([3, 1034, 1034]), torch.Size([3, 1034, 1034]))
 ```
-![output-grid.png](img/output-grid.png)
 
+![output-grid.png](img/output-grid.png)
 
 ## Download the Notebook
 
-Find the full code in this  Notebook Tutorial: [SplitRaster Tutorial](https://github.com/cuicaihao/split_raster/blob/master/notebooks/Tutorial.ipynb).
+Find the full code in this Notebook Tutorial: [Standard Image Tiling](https://github.com/cuicaihao/split_raster/blob/master/notebooks/01_Standard_Image_Tiling.ipynb).
 
---- 
-
+---

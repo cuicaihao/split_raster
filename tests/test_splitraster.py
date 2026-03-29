@@ -1,15 +1,20 @@
 #  Test the Packages
+import os
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+
+
 #  Example A:
 def test_rgb_gt_slide_window() -> None:
     from splitraster import io
 
     # Step 1: set input image file path
-    input_image_path = "./data/raw/RGB.png"
-    gt_image_path = "./data/raw/GT.png"
+    input_image_path = os.path.join(base_dir, "data/raw/RGB.png")
+    gt_image_path = os.path.join(base_dir, "data/raw/GT.png")
 
     # Step 2: prepare output directory and splitting configuration
-    input_save_path = "./data/processed/RGB"
-    gt_save_path = "./data/processed/GT"
+    input_save_path = os.path.join(base_dir, "data/processed/RGB")
+    gt_save_path = os.path.join(base_dir, "data/processed/GT")
 
     crop_size = 256
     repetition_rate = 0
@@ -42,11 +47,11 @@ def test_rgb_gt_slide_window() -> None:
 def test_rgb_gt_random_crop():
     from splitraster import io
 
-    input_image_path = "./data/raw/RGB.png"
-    gt_image_path = "./data/raw/GT.png"
+    input_image_path = os.path.join(base_dir, "data/raw/RGB.png")
+    gt_image_path = os.path.join(base_dir, "data/raw/GT.png")
 
-    save_path = "./data/processed/Rand/RGB"
-    save_path_gt = "./data/processed/Rand/GT"
+    save_path = os.path.join(base_dir, "data/processed/Rand/RGB")
+    save_path_gt = os.path.join(base_dir, "data/processed/Rand/GT")
 
     n = io.random_crop_image(
         input_image_path,
@@ -61,7 +66,8 @@ def test_rgb_gt_random_crop():
     )
 
     print(
-        f"{n} sample paris of {input_image_path, gt_image_path} are added at {save_path, save_path_gt}"
+        f"{n} sample paris of {input_image_path, gt_image_path} "
+        f"are added at {save_path, save_path_gt}"
     )
 
 
@@ -69,11 +75,11 @@ def test_rgb_gt_random_crop():
 # def test_tif_slide_window():
 #     from splitraster import geo
 
-#     input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
-#     gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
+#     input_tif_image_path = os.path.join(base_dir, "data/raw/TIF/RGB5k.tif")
+#     gt_tif_image_path = os.path.join(base_dir, "data/raw/TIF/GT5k.tif")
 
-#     input_save_image_path = "./data/processed/RGB_TIF"
-#     gt_save_image_path = "./data/processed/GT_TIF"
+#     input_save_image_path = os.path.join(base_dir, "data/processed/RGB_TIF")
+#     gt_save_image_path = os.path.join(base_dir, "data/processed/GT_TIF")
 
 #     crop_size = 500
 #     repetition_rate = 0
@@ -88,25 +94,29 @@ def test_rgb_gt_random_crop():
 #     )
 
 #     print(
-#         f"{n} tiles sample of {input_tif_image_path} are added at {input_save_image_path}"
+#         f"{n} tiles sample of {input_tif_image_path} "
+#         f"are added at {input_save_image_path}"
 #     )
 
 #     n = geo.split_image(
 #         gt_tif_image_path, gt_save_image_path, crop_size, repetition_rate, overwrite
 #     )
 
-#     print(f"{n} tiles sample of {gt_tif_image_path} are added at {gt_save_image_path}")
+#     print(
+#         f"{n} tiles sample of {gt_tif_image_path} "
+#         f"are added at {gt_save_image_path}"
+#     )
 
 
 # #  Example D
 # def test_tif_random_sample():
 #     from splitraster import geo
 
-#     input_tif_image_path = "./data/raw/TIF/RGB5k.tif"
-#     gt_tif_image_path = "./data/raw/TIF/GT5k.tif"
+#     input_tif_image_path = os.path.join(base_dir, "data/raw/TIF/RGB5k.tif")
+#     gt_tif_image_path = os.path.join(base_dir, "data/raw/TIF/GT5k.tif")
 
-#     input_save_image_path = "./data/processed/Rand/RGB_TIF"
-#     gt_save_image_path = "./data/processed/Rand/GT_TIF"
+#     input_save_image_path = os.path.join(base_dir, "data/processed/Rand/RGB_TIF")
+#     gt_save_image_path = os.path.join(base_dir, "data/processed/Rand/GT_TIF")
 
 #     n = geo.random_crop_image(
 #         input_tif_image_path,
@@ -119,7 +129,8 @@ def test_rgb_gt_random_crop():
 #     )
 
 #     print(
-#         f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} are added at {input_save_image_path, gt_save_image_path}."
+#         f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} "
+#         f"are added at {input_save_image_path, gt_save_image_path}."
 #     )
 
 

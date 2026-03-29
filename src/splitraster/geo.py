@@ -1,9 +1,17 @@
-from tqdm import tqdm
-from osgeo import gdal, gdal_array
-import numpy as np
-from pathlib import Path
 import random
-from typing import Tuple, Optional
+from pathlib import Path
+from typing import Optional, Tuple
+
+import numpy as np
+
+try:
+    from osgeo import gdal, gdal_array
+except ImportError:
+    raise ImportError(
+        "GDAL is not installed. Please install it using 'pip install \"splitraster[geo]\"' "
+        "or follow the instructions in the README for system-level GDAL installation."
+    )
+from tqdm import tqdm
 
 
 def read_rasterArray(image_path: str) -> Tuple[np.ndarray, Tuple[float, ...], str]:
@@ -37,9 +45,7 @@ def save_rasterGeoTIF(
         im_bands, im_height, im_width = im_data.shape
 
     driver = gdal.GetDriverByName("GTiff")
-    dataset = driver.Create(
-        file_name, int(im_width), int(im_height), int(im_bands), datatype
-    )
+    dataset = driver.Create(file_name, int(im_width), int(im_height), int(im_bands), datatype)
     if dataset is not None:
         dataset.SetGeoTransform(im_geotrans)
         dataset.SetProjection(im_proj)
@@ -68,9 +74,7 @@ def padding_mul_image(img: np.ndarray, stride: int) -> np.ndarray:
     padded_img = np.zeros((D, H, W), dtype=img.dtype)
     for d in range(D):  # padding every layer
         onelayer = img[d, :, :]
-        padded_img[d, :, :] = np.pad(
-            onelayer, ((0, H - height), (0, W - width)), "reflect"
-        )
+        padded_img[d, :, :] = np.pad(onelayer, ((0, H - height), (0, W - width)), "reflect")
     return padded_img
 
 
@@ -92,7 +96,7 @@ def split_image(
     # check output folder, if not exists, creat it.
     Path(save_path).mkdir(parents=True, exist_ok=True)
 
-    print(f"Input Image File Shape (D, H, W):{ img.shape}")
+    print(f"Input Image File Shape (D, H, W):{img.shape}")
 
     stride = int(crop_size * (1 - repetition_rate))
     print(f"crop_size = {crop_size}, stride = {stride}")
@@ -102,7 +106,7 @@ def split_image(
     H = padded_img.shape[1]
     W = padded_img.shape[2]
 
-    print(f"Padding Image File Shape (D, H, W):{ padded_img.shape}")
+    print(f"Padding Image File Shape (D, H, W):{padded_img.shape}")
 
     if overwrite:
         new_name = 1
@@ -198,9 +202,7 @@ def random_crop_image(
     H = img.shape[1]
     W = img.shape[2]
 
-    with tqdm(
-        total=crop_number, desc="Generating", colour="green", leave=True, unit="img"
-    ) as pbar:
+    with tqdm(total=crop_number, desc="Generating", colour="green", leave=True, unit="img") as pbar:
         while crop_cnt < crop_number:
             # Crop img_crop, label_crop paris and save them to the output folders.
             UpperLeftX = random.randint(0, H - crop_size)

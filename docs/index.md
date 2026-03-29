@@ -8,7 +8,6 @@
 [![DTotal](https://pepy.tech/badge/splitraster?)](https://pepy.tech/project/splitraster)
 [![image](https://img.shields.io/github/license/cuicaihao/split_raster?color=blue)](https://python.org/pypi/splitraster)
 
-
 ## Quick Links
 
 - PyPI: [split-raster](https://pypi.org/project/splitraster/)
@@ -38,11 +37,11 @@ The sample image can be found in the GitHub repo.
 
 from splitraster import io
 
-input_image_path = "./data/raw/RGB.png"
-gt_image_path = "./data/raw/GT.png"
+input_image_path = "./tests/data/raw/RGB.png"
+gt_image_path = "./tests/data/raw/GT.png"
 
-save_path = "./data/processed/RGB"
-save_path_gt = "./data/processed/GT"
+save_path = "./tests/data/processed/RGB"
+save_path_gt = "./tests/data/processed/GT"
 
 crop_size = 256 # 256x256 pixels of the output tiles
 repetition_rate = 0.0 # 0.0 means no overlap
@@ -67,13 +66,12 @@ Input Image File Shape (H, W, D):(1000, 1000, 3)
 crop_size = 256, stride = 256
 Padding Image File Shape (H, W, D):(1024, 1024, 3)
 Generating: 100%|██████████| 16/16 [00:00<00:00, 27.63img/s]
-16 tiles sample of ../data/raw/RGB.png are added at ../data/processed/RGB
+16 tiles sample of ./tests/data/raw/RGB.png are added at ./tests/data/processed/RGB
 Input Image File Shape (H, W, D):(1000, 1000)
 crop_size = 256, stride = 256
 Padding Image File Shape (H, W, D):(1024, 1024)
-Generating: 100%|██████████| 16/16 [00:00<00:00, 48.39img/s]16 tiles sample of ../data/raw/GT.png are added at ../data/processed/GT
+Generating: 100%|██████████| 16/16 [00:00<00:00, 48.39img/s]16 tiles sample of ./tests/data/raw/GT.png are added at ./tests/data/processed/GT
 ```
- 
 
 ## Random Sampling Code
 
@@ -81,32 +79,34 @@ The basic implementation is still the same as the above. Just replace the 'split
 
 ```python
 from splitraster import io
-input_image_path = "./data/raw/RGB.png"
-gt_image_path = "./data/raw/GT.png"
+input_image_path = "./tests/data/raw/RGB.png"
+gt_image_path = "./tests/data/raw/GT.png"
 
-input_save_path = "./data/processed/Rand/RGB"
-gt_save_path = "./data/processed/Rand/GT"
+input_save_path = "./tests/data/processed/Rand/RGB"
+gt_save_path = "./tests/data/processed/Rand/GT"
 
 n = io.random_crop_image(input_image_path, input_save_path,  gt_image_path, gt_save_path, crop_size=256, crop_number=20, img_ext='.png', label_ext='.png', overwrite=True)
 
 print(f"{n} sample paris of {input_image_path, gt_image_path} are added at {input_save_path, gt_save_path}.")
 
 ```
+
 Results:
 
 ```bash
-Generating: 100%|██████████| 20/20 [00:01<00:00, 19.27img/s]20 sample paris of ('../data/raw/RGB.png', '../data/raw/GT.png') are added at ('../data/processed/Rand/RGB', '../data/processed/Rand/GT').
+Generating: 100%|██████████| 20/20 [00:01<00:00, 19.27img/s]20 sample paris of ('./tests/data/raw/RGB.png', './tests/data/raw/GT.png') are added at ('./tests/data/processed/Rand/RGB', './tests/data/processed/Rand/GT').
 ```
 
- 
 ## Update Log
+
+- 2026-Mar-29  Modernize repo structure, migrate to `uv` and `ruff`, and add `GDAL` as an optional extra.
 - 2023-Mar-19  Update github actions and add tutorial for the package.
-- 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (https://pypi.org/project/splitraster/0.3.3).
-- 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(https://pypi.org/project/splitraster/0.3.2/) .
- 
+- 2022-Dec-16  Upgrade the package to support python 3.8, 3.9, 3.10, 3.11 (<https://pypi.org/project/splitraster/0.3.3>).
+- 2022-Jan-16  Fix bugs to make package suitable for python 3.7. Publish new version at(<https://pypi.org/project/splitraster/0.3.2/>) .
+
 ## Contribution Guidelines
 
 If you run into issues or have questions, please [open an issue](https://github.com/cuicaihao/split_raster/issues) or [submit a pull request](https://github.com/cuicaihao/split_raster/pulls).
 
-If you are interested in contributing to `splitraster`, please see our [contributing guidelines](../CONTRIBUTING.md).
+If you are interested in contributing to `splitraster`, please see our [contributing guidelines](CONTRIBUTING.md).
   
