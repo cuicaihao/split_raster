@@ -53,6 +53,26 @@ def count_files(folder_path):
     return count
 
 
+def validate_tiling_params(crop_size, repetition_rate) -> int:
+    """
+    Validate crop and overlap settings, then return the stride.
+    Args:
+        crop_size: crop size
+        repetition_rate: repetition rate
+    Returns:
+        stride
+    """
+    if crop_size <= 0:
+        raise ValueError("crop_size must be greater than 0")
+    if not 0 <= repetition_rate < 1:
+        raise ValueError("repetition_rate must be greater than or equal to 0 and less than 1")
+
+    stride = int(crop_size * (1 - repetition_rate))
+    if stride <= 0:
+        raise ValueError("crop_size and repetition_rate must produce a positive stride")
+    return stride
+
+
 def padding_image(img, stride) -> np.ndarray:
     """
     Padding image to the size of multiple of stride
@@ -104,7 +124,7 @@ def split_image(img_path, save_path, crop_size, repetition_rate=0, overwrite=Tru
 
     print(f"Input Image File Shape (H, W, D):{img.shape}")
 
-    stride = int(crop_size * (1 - repetition_rate))
+    stride = validate_tiling_params(crop_size, repetition_rate)
     print(f"crop_size = {crop_size}, stride = {stride}")
 
     padded_img = padding_image(img, stride)
@@ -195,8 +215,8 @@ def random_crop_image(
     if overwrite:
         new_name = 1
     else:
-        img_cnt = count_files(img_path)
-        label_cnt = count_files(label_path)
+        img_cnt = count_files(img_save_path)
+        label_cnt = count_files(label_save_path)
         new_name = img_cnt + 1
         print(f"There are {img_cnt} files in the {img_save_path}")
         print(f"There are {label_cnt} files in the {label_save_path}")

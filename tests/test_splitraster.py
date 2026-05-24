@@ -1,57 +1,54 @@
-#  Test the Packages
-import os
+import importlib
+import sys
+import types
+from pathlib import Path
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
+import numpy as np
+import pytest
+
+BASE_DIR = Path(__file__).resolve().parent
 
 
-#  Example A:
-def test_rgb_gt_slide_window() -> None:
+def test_rgb_gt_slide_window(tmp_path) -> None:
     from splitraster import io
 
-    # Step 1: set input image file path
-    input_image_path = os.path.join(base_dir, "data/raw/RGB.png")
-    gt_image_path = os.path.join(base_dir, "data/raw/GT.png")
+    input_image_path = BASE_DIR / "data/raw/RGB.png"
+    gt_image_path = BASE_DIR / "data/raw/GT.png"
+    input_save_path = tmp_path / "RGB"
+    gt_save_path = tmp_path / "GT"
 
-    # Step 2: prepare output directory and splitting configuration
-    input_save_path = os.path.join(base_dir, "data/processed/RGB")
-    gt_save_path = os.path.join(base_dir, "data/processed/GT")
-
-    crop_size = 256
-    repetition_rate = 0
-    overwrite = False
-
-    # step 3: split the RGB images
     n = io.split_image(
         input_image_path,
         input_save_path,
-        crop_size,
-        repetition_rate=repetition_rate,
-        overwrite=overwrite,
+        crop_size=256,
+        repetition_rate=0,
+        overwrite=False,
     )
-    print(f"{n} tiles sample of {input_image_path} are added at {input_save_path}")
+    assert n == 16
+    assert len(list(input_save_path.iterdir())) == 16
 
-    # step 4: split the GT images
     n = io.split_image(
         gt_image_path,
         gt_save_path,
-        crop_size,
-        repetition_rate=repetition_rate,
-        overwrite=overwrite,
+        crop_size=256,
+        repetition_rate=0,
+        overwrite=False,
     )
-    print(f"{n} tiles sample of {gt_image_path} are added at {gt_save_path}")
+    assert n == 16
+    assert len(list(gt_save_path.iterdir())) == 16
 
-    # Step 5: Use the RGB and GT folders for your deep learning model.
 
-
-#  Example B
-def test_rgb_gt_random_crop():
+def test_rgb_gt_random_crop_uses_output_folder_count(tmp_path):
     from splitraster import io
 
-    input_image_path = os.path.join(base_dir, "data/raw/RGB.png")
-    gt_image_path = os.path.join(base_dir, "data/raw/GT.png")
-
-    save_path = os.path.join(base_dir, "data/processed/Rand/RGB")
-    save_path_gt = os.path.join(base_dir, "data/processed/Rand/GT")
+    input_image_path = BASE_DIR / "data/raw/RGB.png"
+    gt_image_path = BASE_DIR / "data/raw/GT.png"
+    save_path = tmp_path / "Rand/RGB"
+    save_path_gt = tmp_path / "Rand/GT"
+    save_path.mkdir(parents=True)
+    save_path_gt.mkdir(parents=True)
+    (save_path / "0001.png").touch()
+    (save_path_gt / "0001.png").touch()
 
     n = io.random_crop_image(
         input_image_path,
@@ -59,79 +56,84 @@ def test_rgb_gt_random_crop():
         gt_image_path,
         save_path_gt,
         crop_size=256,
-        crop_number=20,
+        crop_number=1,
         img_ext=".png",
         label_ext=".png",
+        overwrite=False,
+    )
+
+    assert n == 1
+    assert (save_path / "0002.png").is_file()
+    assert (save_path_gt / "0002.png").is_file()
+
+
+def test_invalid_repetition_rate_raises(tmp_path):
+    from splitraster import io
+
+    input_image_path = BASE_DIR / "data/raw/RGB.png"
+
+    with pytest.raises(ValueError, match="repetition_rate"):
+        io.split_image(input_image_path, tmp_path / "RGB", crop_size=256, repetition_rate=1)
+
+
+def import_geo_with_fake_gdal(monkeypatch):
+    fake_gdal = types.SimpleNamespace(
+        GA_ReadOnly=0,
+        GDT_Byte=1,
+        GDT_UInt16=2,
+        GDT_Float32=3,
+        Open=lambda *args, **kwargs: None,
+    )
+    fake_gdal_array = types.SimpleNamespace(SaveArray=lambda *args, **kwargs: True)
+    fake_osgeo = types.SimpleNamespace(gdal=fake_gdal, gdal_array=fake_gdal_array)
+
+    monkeypatch.setitem(sys.modules, "osgeo", fake_osgeo)
+    monkeypatch.setitem(sys.modules, "osgeo.gdal", fake_gdal)
+    monkeypatch.setitem(sys.modules, "osgeo.gdal_array", fake_gdal_array)
+    sys.modules.pop("splitraster.geo", None)
+
+    return importlib.import_module("splitraster.geo")
+
+
+def test_geo_read_raster_array_raises_for_missing_file(monkeypatch):
+    geo = import_geo_with_fake_gdal(monkeypatch)
+    monkeypatch.setattr(geo.gdal, "Open", lambda *args, **kwargs: None)
+
+    with pytest.raises(FileNotFoundError, match="Can not open raster file"):
+        geo.read_rasterArray("missing.tif")
+
+
+def test_geo_random_crop_keeps_image_and_label_order(monkeypatch, tmp_path):
+    geo = import_geo_with_fake_gdal(monkeypatch)
+    img = np.ones((1, 2, 2), dtype=np.uint8)
+    label = np.full((1, 2, 2), 2, dtype=np.uint8)
+    saved = []
+
+    def fake_read(path):
+        if path == "img.tif":
+            return img, ("img-geotrans",), "img-proj"
+        if path == "label.tif":
+            return label, ("label-geotrans",), "label-proj"
+        raise AssertionError(f"unexpected path: {path}")
+
+    def fake_save(data, geotrans, proj, file_name):
+        saved.append((data.copy(), geotrans, proj, Path(file_name).name))
+
+    monkeypatch.setattr(geo, "read_rasterArray", fake_read)
+    monkeypatch.setattr(geo, "save_rasterGeoTIF", fake_save)
+
+    n = geo.random_crop_image(
+        "img.tif",
+        tmp_path / "img",
+        "label.tif",
+        tmp_path / "label",
+        crop_size=2,
+        crop_number=1,
         overwrite=True,
     )
 
-    print(
-        f"{n} sample paris of {input_image_path, gt_image_path} "
-        f"are added at {save_path, save_path_gt}"
-    )
-
-
-# #  Example C
-# def test_tif_slide_window():
-#     from splitraster import geo
-
-#     input_tif_image_path = os.path.join(base_dir, "data/raw/TIF/RGB5k.tif")
-#     gt_tif_image_path = os.path.join(base_dir, "data/raw/TIF/GT5k.tif")
-
-#     input_save_image_path = os.path.join(base_dir, "data/processed/RGB_TIF")
-#     gt_save_image_path = os.path.join(base_dir, "data/processed/GT_TIF")
-
-#     crop_size = 500
-#     repetition_rate = 0
-#     overwrite = True
-
-#     n = geo.split_image(
-#         input_tif_image_path,
-#         input_save_image_path,
-#         crop_size,
-#         repetition_rate,
-#         overwrite,
-#     )
-
-#     print(
-#         f"{n} tiles sample of {input_tif_image_path} "
-#         f"are added at {input_save_image_path}"
-#     )
-
-#     n = geo.split_image(
-#         gt_tif_image_path, gt_save_image_path, crop_size, repetition_rate, overwrite
-#     )
-
-#     print(
-#         f"{n} tiles sample of {gt_tif_image_path} "
-#         f"are added at {gt_save_image_path}"
-#     )
-
-
-# #  Example D
-# def test_tif_random_sample():
-#     from splitraster import geo
-
-#     input_tif_image_path = os.path.join(base_dir, "data/raw/TIF/RGB5k.tif")
-#     gt_tif_image_path = os.path.join(base_dir, "data/raw/TIF/GT5k.tif")
-
-#     input_save_image_path = os.path.join(base_dir, "data/processed/Rand/RGB_TIF")
-#     gt_save_image_path = os.path.join(base_dir, "data/processed/Rand/GT_TIF")
-
-#     n = geo.random_crop_image(
-#         input_tif_image_path,
-#         input_save_image_path,
-#         gt_tif_image_path,
-#         gt_save_image_path,
-#         crop_size=500,
-#         crop_number=20,
-#         overwrite=True,
-#     )
-
-#     print(
-#         f"{n} sample paris of {input_tif_image_path, gt_tif_image_path} "
-#         f"are added at {input_save_image_path, gt_save_image_path}."
-#     )
-
-
-print("PASS")
+    assert n == 1
+    assert saved[0][1:] == (("img-geotrans",), "img-proj", "0001.tif")
+    assert saved[1][1:] == (("label-geotrans",), "label-proj", "0001.tif")
+    assert np.array_equal(saved[0][0], img)
+    assert np.array_equal(saved[1][0], label)
