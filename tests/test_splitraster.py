@@ -1,7 +1,14 @@
 #  Test the Packages
 import os
+from importlib.metadata import version
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
+
+
+def test_package_version_matches_metadata() -> None:
+    import splitraster
+
+    assert splitraster.__version__ == version("splitraster")
 
 
 #  Example A:
