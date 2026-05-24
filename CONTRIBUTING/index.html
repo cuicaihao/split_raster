@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://cuicaihao.github.io/split_raster/CONTRIBUTING/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Contributing - Split Raster</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Contributing";
+        var mkdocs_page_input_path = "CONTRIBUTING.md";
+        var mkdocs_page_url = "/split_raster/CONTRIBUTING/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Split Raster
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../tutorial/">Tutorial</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../gis/">GIS-RS</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Contributing</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#branching-model">Branching Model</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#development-environment">Development Environment</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#quality-checks">Quality Checks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#tests">Tests</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#pull-requests">Pull Requests</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#versioning">Versioning</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#release-process">Release Process</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../about/">About</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Split Raster</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Contributing</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="contributing-to-split-raster">Contributing to Split Raster</h1>
+<p>Thanks for helping improve <code>splitraster</code>. This guide is for developers who want to
+change code, tests, documentation, or release tooling.</p>
+<h2 id="branching-model">Branching Model</h2>
+<p>This repository uses a simple develop-to-release flow:</p>
+<ul>
+<li><code>develop</code> is the integration branch for day-to-day development.</li>
+<li><code>feature/*</code> and <code>codex/*</code> branches are used for focused changes.</li>
+<li><code>master</code> is the stable release branch.</li>
+<li><code>v*</code> tags trigger package release, for example <code>v0.4.1</code>.</li>
+</ul>
+<p>Start new work from <code>develop</code>:</p>
+<pre><code class="language-bash">git switch develop
+git pull
+git switch -c feature/your-change
+</code></pre>
+<p>Keep changes small and reviewable. Separate unrelated bug fixes, workflow changes,
+documentation updates, and releases into different branches when practical.</p>
+<h2 id="development-environment">Development Environment</h2>
+<p>The project requires Python 3.10 or newer and uses <code>uv</code> for dependency management.</p>
+<pre><code class="language-bash">uv sync
+</code></pre>
+<p>Run commands through <code>uv run</code> so they use the project environment:</p>
+<pre><code class="language-bash">uv run pytest tests/ -v
+uv run ruff check .
+uv run ruff format --check .
+</code></pre>
+<p>Optional GeoTIFF support requires GDAL:</p>
+<pre><code class="language-bash">uv pip install &quot;splitraster[geo]&quot;
+</code></pre>
+<p>GDAL often needs system packages as well. If your change does not touch
+<code>src/splitraster/geo.py</code>, it is acceptable to run the regular test suite without a
+local GDAL install.</p>
+<h2 id="quality-checks">Quality Checks</h2>
+<p>Before opening a pull request, run:</p>
+<pre><code class="language-bash">uv run ruff check .
+uv run ruff format --check .
+uv run pytest tests/ -v
+</code></pre>
+<p>For packaging-related changes, also run:</p>
+<pre><code class="language-bash">uv run python -m build
+uv run python -m twine check dist/*
+</code></pre>
+<p>The CI workflow repeats the important checks on Python 3.10, 3.11, 3.12, and 3.13.</p>
+<h2 id="tests">Tests</h2>
+<p>Tests should avoid writing generated files into tracked sample-data directories.
+Use <code>tmp_path</code> for output created during tests.</p>
+<p>Add or update tests when changing:</p>
+<ul>
+<li>tile naming or overwrite behavior</li>
+<li>crop size, stride, padding, or overlap behavior</li>
+<li>random crop pairing between image and label</li>
+<li>GeoTIFF read/write behavior</li>
+<li>package metadata, build, or release workflow behavior</li>
+</ul>
+<p>GeoTIFF logic can be covered with fake GDAL objects when the test only needs to
+verify control flow. Use real GDAL integration tests only when the file I/O itself
+is the behavior under test.</p>
+<h2 id="pull-requests">Pull Requests</h2>
+<p>Open pull requests into <code>develop</code> unless the maintainer asks for a different
+target branch.</p>
+<p>A good pull request includes:</p>
+<ul>
+<li>a concise description of the change</li>
+<li>the reason for the change</li>
+<li>tests that were run</li>
+<li>any remaining risks, especially around GDAL or release automation</li>
+</ul>
+<h2 id="versioning">Versioning</h2>
+<p>The package version is maintained in one place:</p>
+<pre><code class="language-toml"># pyproject.toml
+[project]
+version = &quot;0.4.1&quot;
+</code></pre>
+<p>Do not edit <code>src/splitraster/__init__.py</code> to bump the version. The package
+<code>__version__</code> is read from installed package metadata.</p>
+<p>Use semantic versioning in spirit:</p>
+<ul>
+<li>patch version for bug fixes and documentation-only release corrections</li>
+<li>minor version for backward-compatible features</li>
+<li>major version for breaking API or output-format changes</li>
+</ul>
+<h2 id="release-process">Release Process</h2>
+<p>Releases are tag-driven. The release workflow runs only for tags matching <code>v*</code>.
+It also verifies that the tag matches the version in <code>pyproject.toml</code>.</p>
+<p>For example, to release <code>0.4.1</code>:</p>
+<pre><code class="language-bash"># Update pyproject.toml:
+# version = &quot;0.4.1&quot;
+
+git add pyproject.toml
+git commit -m &quot;Bump version to 0.4.1&quot;
+
+# After the release commit is on master:
+git tag v0.4.1
+git push origin master
+git push origin v0.4.1
+</code></pre>
+<p>The release workflow will:</p>
+<ol>
+<li>build the source distribution and wheel once</li>
+<li>validate distribution metadata with <code>twine check</code></li>
+<li>test the built wheel on Python 3.10 through 3.13</li>
+<li>publish to PyPI with Trusted Publishing/OIDC</li>
+<li>create a GitHub Release with the same artifacts</li>
+</ol>
+<p>PyPI Trusted Publishing must be configured for:</p>
+<ul>
+<li>repository: <code>cuicaihao/split_raster</code></li>
+<li>workflow: <code>python-CD.yml</code></li>
+<li>environment: <code>pypi</code></li>
+</ul>
+<h2 id="documentation">Documentation</h2>
+<p>Documentation source files live in <code>docs/</code> and are built with MkDocs. Treat
+documentation like code: edit the source Markdown and image files, then let the
+docs workflow publish the generated site.</p>
+<p>Repository layout:</p>
+<ul>
+<li><code>docs/</code> contains tracked documentation source files.</li>
+<li><code>mkdocs.yml</code> contains navigation and MkDocs configuration.</li>
+<li><code>site/</code> is local build output and should stay untracked.</li>
+<li><code>gh-pages</code> is the deployment branch for generated GitHub Pages content.</li>
+</ul>
+<p>Do not manually edit generated files in <code>site/</code> or on <code>gh-pages</code>. Make the change
+in <code>docs/</code>, verify it locally, and let the workflow publish it.</p>
+<pre><code class="language-bash">uv run mkdocs serve
+uv run mkdocs build
+</code></pre>
+<p>Documentation deploy is handled separately from package release and runs from the
+docs workflow.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../gis/" class="btn btn-neutral float-left" title="GIS-RS"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../about/" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../gis/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../about/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
