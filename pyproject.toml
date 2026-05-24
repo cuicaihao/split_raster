@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "splitraster"
-version = "0.4.0"
+version = "0.4.1"
 authors = [{ name = "Chris Cui" }]
 description = "Provide good support for deep learning and computer vision tasks by creating a tiled output from an input raster dataset."
 readme = "PyPi.md"
