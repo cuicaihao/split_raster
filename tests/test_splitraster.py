@@ -1,12 +1,19 @@
 import importlib
 import sys
 import types
+from importlib.metadata import version
 from pathlib import Path
 
 import numpy as np
 import pytest
 
 BASE_DIR = Path(__file__).resolve().parent
+
+
+def test_package_version_matches_metadata() -> None:
+    import splitraster
+
+    assert splitraster.__version__ == version("splitraster")
 
 
 def test_rgb_gt_slide_window(tmp_path) -> None:

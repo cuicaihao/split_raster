@@ -1,58 +1,80 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: SplitRaster Developmnet Build Install and Test
+name: CI
 
 on:
   push:
-    branches: [develop, feature/*]
-
+    branches:
+      - develop
+      - main
+      - master
+      - "feature/**"
+      - "codex/**"
   pull_request:
-    branches: [develop, feature/*]
+    branches:
+      - develop
+      - main
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  format_and_check:
-    runs-on: ubuntu-22.04
-    environment: development
+  lint:
+    name: Lint and format
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
-      - name: Install dependencies
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install lint dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install ruff
-      - name: Lint with ruff
-        run: |
-          ruff check .
-      - name: Format check with ruff
-        run: |
-          ruff format --check .
+          python -m pip install "ruff>=0.9.7"
 
-  build:
-    needs: format_and_check
-    runs-on: ubuntu-22.04
-    environment: development
+      - name: Run ruff
+        run: ruff check .
+
+      - name: Check formatting
+        run: ruff format --check .
+
+  test:
+    name: Build and test Python ${{ matrix.python-version }}
+    needs: lint
+    runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
+          cache: pip
+
+      - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest build
-      - name: Build Python package
-        run: |
-          python -m build
-      - name: Install Python Package
-        run: |
-          pip install dist/*.whl
-      - name: Test with pytest
-        run: |
-          pytest tests/ -v
+          python -m pip install build pytest twine
+
+      - name: Build distribution
+        run: python -m build
+
+      - name: Check distribution metadata
+        run: python -m twine check dist/*
+
+      - name: Install built wheel
+        run: python -m pip install dist/*.whl
+
+      - name: Run tests
+        run: pytest tests/ -v
