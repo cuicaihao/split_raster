@@ -1,140 +1,128 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: SplitRaster Package Release and Publish
+name: Release
 
 on:
   push:
-    branches: [master]
     tags:
-      - v*
-  pull_request:
-    branches: [master]
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
-  format_and_check:
-    runs-on: ubuntu-22.04
-    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
+  build:
+    name: Build distribution
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
-      - name: Install dependencies
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install build dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install ruff
-      - name: Lint with ruff
-        run: |
-          ruff check .
-      - name: Format check with ruff
-        run: |
-          ruff format --check .
+          python -m pip install build twine
 
-  build:
-    needs: format_and_check
-    runs-on: ubuntu-22.04
-    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
+      - name: Verify tag matches package version
+        run: |
+          python - <<'PY'
+          import os
+          import tomllib
+
+          with open("pyproject.toml", "rb") as f:
+              version = tomllib.load(f)["project"]["version"]
+
+          expected_ref = f"refs/tags/v{version}"
+          actual_ref = os.environ["GITHUB_REF"]
+          if actual_ref != expected_ref:
+              raise SystemExit(f"Tag {actual_ref!r} does not match package version {version!r}")
+          PY
+
+      - name: Build distribution
+        run: python -m build
+
+      - name: Check distribution metadata
+        run: python -m twine check dist/*
+
+      - name: Upload distribution artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  test:
+    name: Test distribution on Python ${{ matrix.python-version }}
+    needs: build
+    runs-on: ubuntu-24.04
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13"]
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest build
-      - name: Build Python package
-        run: |
-          python -m build
-      - name: Install Python Package
-        run: |
-          pip install dist/*.whl
-      - name: Test with pytest
-        run: |
-          pytest tests/ -v
+          cache: pip
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-22.04
-    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Download distribution artifact
+        uses: actions/download-artifact@v4
         with:
-          python-version: "3.10"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pytest build
-      - name: re-Build Python package
-        run: |
-          python -m build
-      - name: Install Python Package
-        run: |
-          pip install dist/*.whl
-      - name: Install twine
-        run: |
-          python -m pip install --upgrade pip
-          pip install twine
-      - name: Upload to PyPI
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: |
-          python -m twine upload --skip-existing dist/*
+          name: python-package-distributions
+          path: dist/
 
-  release:
-    needs: deploy
-    runs-on: ubuntu-22.04
-    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Get Package version
-        id: get_version
-        run: |
-          echo "version=$(python -c "import re; print(re.search(r'version = \"(.*?)\"', open('pyproject.toml').read()).group(1))")" >> $GITHUB_ENV
-      - name: Check if release exists
-        id: check_release
-        run: |
-          RELEASE_ID=$(curl --silent --show-error --location --retry 3 --output /dev/null --write-out "%{http_code}" --header "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ env.version }}")
-          echo "exists=$([[ "$RELEASE_ID" != "404" ]] && echo true || echo false)" >> $GITHUB_ENV
-      - name: Create Release
-        id: create_release
-        if: ${{ !env.exists }}
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.version }}
-          release_name: Release ${{ env.version }}
-          draft: false
-          prerelease: false
-
-  deploy_docs:
-    needs: build
-    runs-on: ubuntu-22.04
-    environment: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
+      - name: Install test dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install mkdocs
-      - name: Deploy to GitHub Pages
-        run: |
-          mkdocs gh-deploy --force
+          python -m pip install pytest
+
+      - name: Install built wheel
+        run: python -m pip install dist/*.whl
+
+      - name: Run tests
+        run: pytest tests/ -v
+
+  publish:
+    name: Publish to PyPI
+    needs: test
+    runs-on: ubuntu-24.04
+    environment: pypi
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Download distribution artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  github_release:
+    name: Create GitHub release
+    needs: publish
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download distribution artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*

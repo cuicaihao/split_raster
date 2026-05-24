@@ -4,6 +4,8 @@ from typing import Optional, Tuple
 
 import numpy as np
 
+from splitraster.io import validate_tiling_params
+
 try:
     from osgeo import gdal, gdal_array
 except ImportError:
@@ -16,6 +18,8 @@ from tqdm import tqdm
 
 def read_rasterArray(image_path: str) -> Tuple[np.ndarray, Tuple[float, ...], str]:
     dataset = gdal.Open(image_path, gdal.GA_ReadOnly)
+    if dataset is None:
+        raise FileNotFoundError(f"Can not open raster file: {image_path}")
     image = dataset.ReadAsArray()  # get the rasterArray
     # convert 2D raster to [1, H, W] format
     if len(image.shape) == 2:
@@ -98,7 +102,7 @@ def split_image(
 
     print(f"Input Image File Shape (D, H, W):{img.shape}")
 
-    stride = int(crop_size * (1 - repetition_rate))
+    stride = validate_tiling_params(crop_size, repetition_rate)
     print(f"crop_size = {crop_size}, stride = {stride}")
 
     padded_img = padding_mul_image(img, stride)
@@ -164,12 +168,12 @@ def random_crop_image(
         label_ext (str): extension for label files
         overwrite (bool): overwrite existing files
     """
-    img, geotrans, proj = read_rasterArray(label_path)
+    img, img_geotrans, img_proj = read_rasterArray(img_path)
     if img is None:
         print("Input image is missing")
         return None
 
-    label, geotrans, proj = read_rasterArray(img_path)
+    label, label_geotrans, label_proj = read_rasterArray(label_path)
     if label is None:
         print("Label image is missing")
         return None
@@ -188,8 +192,8 @@ def random_crop_image(
     if overwrite:
         new_name = 1
     else:
-        img_cnt = count_files(img_path)
-        label_cnt = count_files(label_path)
+        img_cnt = count_files(img_save_path)
+        label_cnt = count_files(label_save_path)
         new_name = img_cnt + 1
         print(f"There are {img_cnt} files in the {img_save_path}")
         print(f"There are {label_cnt} files in the {label_save_path}")
@@ -222,11 +226,11 @@ def random_crop_image(
             # save image pairs
             crop_image_name = f"{new_name:04d}{img_ext}"
             crop_image_path = Path(img_save_path) / crop_image_name
-            save_rasterGeoTIF(imgCrop, geotrans, proj, str(crop_image_path))
+            save_rasterGeoTIF(imgCrop, img_geotrans, img_proj, str(crop_image_path))
 
             crop_image_name = f"{new_name:04d}{label_ext}"
             crop_image_path = Path(label_save_path) / crop_image_name
-            save_rasterGeoTIF(labelCrop, geotrans, proj, str(crop_image_path))
+            save_rasterGeoTIF(labelCrop, label_geotrans, label_proj, str(crop_image_path))
 
             new_name += 1  # update image name
             crop_cnt += 1  # add crop count
